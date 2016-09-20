@@ -1,2 +1,2 @@
 # mog-vscode
-EXPERIMENTAL: Extension for Visual Basic Code
+EXPERIMENTAL: Extension for Visual Studio Code
