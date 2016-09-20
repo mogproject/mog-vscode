@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
         ["mog.enterMarkMode", enterMarkMode],
         ["mog.exitMarkMode", exitMarkMode],
         ["mog.editor.action.duplicateAction", duplicateAction]
-    ]
+    ];
 
     supportedCursorMoves.forEach(s =>
         commands.push(["mog." + s, () => vscode.commands.executeCommand(inMarkMode ? s + "Select" : s)])
@@ -33,14 +33,14 @@ export function activate(context: vscode.ExtensionContext) {
 
     supportedClipboardActions.forEach(s =>
         commands.push(["mog.editor.action.clipboard" + s + "Action", () => clipboardAction(s)])
-    )
+    );
 
     // Register commands
-    commands.forEach(c => {
+    commands.forEach(c =>
         context.subscriptions.push(vscode.commands.registerCommand(c[0], c[1]))
-    });
+    );
 
-    console.log("Loaded extension: mog-vscode")
+    console.log("Loaded extension: mog-vscode");
 }
 
 export function deactivate() {
@@ -49,7 +49,7 @@ export function deactivate() {
 // Commands
 function enterMarkMode(): void {
     removeSelection();
-    inMarkMode = !inMarkMode
+    inMarkMode = !inMarkMode;
 }
 
 function exitMarkMode(): void {
@@ -61,7 +61,7 @@ function exitMarkMode(): void {
 function clipboardAction(verb: string) {
     return vscode.commands.executeCommand("editor.action.clipboard" + verb + "Action").then(() => {
         if (inMarkMode) {
-            if (verb != "Cut") removeSelection()
+            if (verb != "Cut") removeSelection();
             inMarkMode = false;
         }
     });

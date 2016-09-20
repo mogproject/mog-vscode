@@ -42,7 +42,8 @@
             { "key": "ctrl+Y",  "command": "editor.action.clipboardPasteAction", "when": "editorTextFocus"},
             { "key": "ctrl+shift+D", "command": "mog.editor.action.duplicateAction", "when": "editorTextFocus"},
             { "key": "Ctrl+G",  "command": "closeReferenceSearchEditor", "when": "searchViewletVisible" },
-            { "key": "Ctrl+G",  "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" }
+            { "key": "Ctrl+G",  "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" },
+            { "key": "ctrl+J", "command": "editor.action.triggerSuggest", "when": "editorTextFocus" }
         ]
     },
     "scripts": {
