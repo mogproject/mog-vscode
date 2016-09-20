@@ -53,7 +53,6 @@ function enterMarkMode(): void {
 }
 
 function exitMarkMode(): void {
-    if (!inMarkMode) return;
     removeSelection();
     inMarkMode = false;
 }
