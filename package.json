@@ -11,14 +11,39 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "*"
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+        "keybindings": [
+            { "key": "ctrl+space", "command": "mog.enterMarkMode", "when": "editorTextFocus" },
+            { "key": "escape", "command": "mog.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+G", "command": "mog.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible"},
+            { "key": "right",  "command": "mog.cursorRight",  "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+F", "command": "mog.cursorRight",  "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "left",   "command": "mog.cursorLeft",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+B", "command": "mog.cursorLeft",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "up",     "command": "mog.cursorUp",     "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+P", "command": "mog.cursorUp",     "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "down",   "command": "mog.cursorDown",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+N", "command": "mog.cursorDown",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "home",   "command": "mog.cursorHome",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+A", "command": "mog.cursorHome",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "end",    "command": "mog.cursorEnd",    "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+E", "command": "mog.cursorEnd",    "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "pagedown", "command": "mog.scrollPageDown", "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+V", "command": "mog.scrollPageDown", "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+V", "command": "selectNextPageSuggestion", "when": "editorTextFocus && suggestWidgetVisible" },
+            { "key": "pageup",  "command": "mog.scrollPageUp",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "alt+V",  "command": "mog.scrollPageUp",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "alt+V", "command": "selectPrevPageSuggestion", "when": "editorTextFocus && suggestWidgetVisible" },
+            { "key": "ctrl+W", "command": "mog.editor.action.clipboardCutAction",  "when": "editorTextFocus"},
+            { "key": "alt+W",  "command": "mog.editor.action.clipboardCopyAction", "when": "editorTextFocus"},
+            { "key": "ctrl+Y",  "command": "editor.action.clipboardPasteAction", "when": "editorTextFocus"},
+            { "key": "Ctrl+G",  "command": "closeReferenceSearchEditor", "when": "searchViewletVisible" },
+            { "key": "Ctrl+G",  "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" },
+            { "key": "Ctrl+G",  "command": "cancelSelection", "when": "editorTextFocus && editorHasSelection" }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "node ./node_modules/vscode/bin/compile",

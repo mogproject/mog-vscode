@@ -1,29 +1,72 @@
 'use strict';
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+
 import * as vscode from 'vscode';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+let inMarkMode = false;
+
+const supportedCursorMoves: string[] = [
+    "cursorUp", "cursorDown", "cursorLeft", "cursorRight",
+    "cursorHome", "cursorEnd",
+    "cursorWordLeft", "cursorWordRight",
+    "scrollPageDown", "scrollPageUp",
+    "scrollLineDown", "scrollLineUp",
+    "cursorTop", "cursorBottom"
+];
+
+const supportedClipboardActions: string[] = [
+    "Copy", "Cut"
+]
+
 export function activate(context: vscode.ExtensionContext) {
+    type Cmd = [string, { (): void }];
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "mog-vscode" is now active!');
+    // Prepare command definitions
+    let commands: Cmd[] = [
+        ["mog.enterMarkMode", enterMarkMode],
+        ["mog.exitMarkMode", exitMarkMode]
+    ]
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with  registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.sayHello', () => {
-        // The code you place here will be executed every time your command is executed
+    supportedCursorMoves.forEach(s =>
+        commands.push(["mog." + s, () => vscode.commands.executeCommand(inMarkMode ? s + "Select" : s)])
+    );
 
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World!');
+    supportedClipboardActions.forEach(s =>
+        commands.push(["mog.editor.action.clipboard" + s + "Action", () => clipboardAction(s)])
+    )
+
+    // Register commands
+    commands.forEach(c => {
+        context.subscriptions.push(vscode.commands.registerCommand(c[0], c[1]))
     });
 
-    context.subscriptions.push(disposable);
+    console.log("Loaded extension: mog-vscode")
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {
+}
+
+// Commands
+function enterMarkMode(): void {
+    removeSelection();
+    inMarkMode = true;
+}
+
+function exitMarkMode(): void {
+    if (!inMarkMode) return;
+    removeSelection();
+    inMarkMode = false;
+}
+
+function clipboardAction(verb: string) {
+    return vscode.commands.executeCommand("editor.action.clipboard" + verb + "Action").then(() => {
+        if (inMarkMode) {
+            if (verb != "Cut") removeSelection()
+            inMarkMode = false;
+        }
+    });
+}
+
+function removeSelection(): void {
+    let currentPosition: vscode.Position = vscode.window.activeTextEditor.selection.active;
+    vscode.window.activeTextEditor.selection = new vscode.Selection(currentPosition, currentPosition);
 }
