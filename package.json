@@ -40,9 +40,9 @@
             { "key": "ctrl+W", "command": "mog.editor.action.clipboardCutAction",  "when": "editorTextFocus"},
             { "key": "alt+W",  "command": "mog.editor.action.clipboardCopyAction", "when": "editorTextFocus"},
             { "key": "ctrl+Y",  "command": "editor.action.clipboardPasteAction", "when": "editorTextFocus"},
+            { "key": "ctrl+shift+D", "command": "mog.editor.action.duplicateAction", "when": "editorTextFocus"},
             { "key": "Ctrl+G",  "command": "closeReferenceSearchEditor", "when": "searchViewletVisible" },
-            { "key": "Ctrl+G",  "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" },
-            { "key": "Ctrl+G",  "command": "cancelSelection", "when": "editorTextFocus && editorHasSelection" }
+            { "key": "Ctrl+G",  "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" }
         ]
     },
     "scripts": {

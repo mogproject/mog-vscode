@@ -23,7 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
     // Prepare command definitions
     let commands: Cmd[] = [
         ["mog.enterMarkMode", enterMarkMode],
-        ["mog.exitMarkMode", exitMarkMode]
+        ["mog.exitMarkMode", exitMarkMode],
+        ["mog.editor.action.duplicateAction", duplicateAction]
     ]
 
     supportedCursorMoves.forEach(s =>
@@ -48,7 +49,7 @@ export function deactivate() {
 // Commands
 function enterMarkMode(): void {
     removeSelection();
-    inMarkMode = true;
+    inMarkMode = !inMarkMode
 }
 
 function exitMarkMode(): void {
@@ -63,6 +64,12 @@ function clipboardAction(verb: string) {
             if (verb != "Cut") removeSelection()
             inMarkMode = false;
         }
+    });
+}
+
+function duplicateAction() {
+    return vscode.commands.executeCommand("mog.editor.action.clipboardCopyAction").then(() => {
+        vscode.commands.executeCommand("editor.action.clipboardPasteAction")
     });
 }
 
