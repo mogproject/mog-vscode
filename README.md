@@ -7,7 +7,7 @@ EXPERIMENTAL: Extension for Visual Studio Code
 cd ~/.vscode/extensions
 git clone git@github.com:mogproject/mog-vscode.git
 cd mog-vscode
-npm install
+npm run vscode:prepublish
 ```
 
 ## Update
