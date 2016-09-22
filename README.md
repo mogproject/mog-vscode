@@ -15,5 +15,6 @@ npm run vscode:prepublish
 ```
 cd ~/.vscode/extensions/mog-vscode
 git pull
+npm run vscode:prepublish
 ```
 

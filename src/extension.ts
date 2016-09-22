@@ -2,13 +2,13 @@
 
 import * as vscode from 'vscode';
 import Window = vscode.window;
-import QuickPickItem = vscode.QuickPickItem;
-import QuickPickOptions = vscode.QuickPickOptions;
-import Document = vscode.TextDocument;
+// import QuickPickItem = vscode.QuickPickItem;
+// import QuickPickOptions = vscode.QuickPickOptions;
+// import Document = vscode.TextDocument;
 import Position = vscode.Position;
 import Range = vscode.Range;
 import Selection = vscode.Selection;
-import TextDocument = vscode.TextDocument;
+// import TextDocument = vscode.TextDocument;
 import TextEditor = vscode.TextEditor;
 import TextEditorEdit = vscode.TextEditorEdit;
 const ncp = require("copy-paste");
@@ -25,59 +25,42 @@ const supportedCursorMoves: string[] = [
     "cursorTop", "cursorBottom"
 ];
 
-const supportedClipboardActions: string[] = [
-    "Copy", "Cut"
-]
-
 export function activate(context: vscode.ExtensionContext) {
-    type Cmd = [string, { (e: TextEditor): void }];
-    type EditCmd = [string, { (a: vscode.TextEditor, b: vscode.TextEditorEdit): void }];
+    type Cmd = [string, { (): void }];
+    type EditCmd = [string, { (t: TextEditor, e: TextEditorEdit): void }];
 
-    // Prepare command definitions
+    // Prepare non-edit command definitions
     let commands: Cmd[] = [
-        ["mog.enterMarkMode", enterMarkMode],
-        ["mog.exitMarkMode", exitMarkMode],
-        //  ["mog.editor.action.duplicateAction", () => duplicateAction(vscode.window.activeTextEditor, vscode.window.activeTextEditor)]
+        ["mog.enterMarkMode", () => enterMarkMode(Window.activeTextEditor)],
+        ["mog.exitMarkMode", () => exitMarkMode(Window.activeTextEditor)],
+        ["mog.editor.action.clipboardCopyAction", () => clipboardAction(Window.activeTextEditor, "Copy")]
     ];
 
     supportedCursorMoves.forEach(s =>
         commands.push(["mog." + s, () => vscode.commands.executeCommand(inMarkMode ? s + "Select" : s)])
     );
 
-    supportedClipboardActions.forEach(s =>
-        commands.push(["mog.editor.action.clipboard" + s + "Action", () => clipboardAction(s)])
-    );
-
-    // Commands for the editor mode
+    // Prepare edit command definitions
     const editCommands: EditCmd[] = [
+        ["mog.editor.action.clipboardCutAction", (t, e) => clipboardAction(t, "Cut")],
         ["mog.editor.action.duplicateAction", (t, e) => duplicateAction(t, e)],
         ["mog.editor.action.killLineAction", (t, e) => killLineAction(t, e)]
-    ];
+    ]
 
-    // Register commands
+    // Register non-edit commands
     commands.forEach(c =>
         context.subscriptions.push(vscode.commands.registerCommand(c[0], c[1]))
     );
 
+    // Register edit commands
     editCommands.forEach(c =>
         context.subscriptions.push(vscode.commands.registerTextEditorCommand(c[0], c[1]))
     );
 
-    console.log("Loaded extension: mog-vscode");
+    console.log("Activated extension: mog-vscode");
 }
 
 export function deactivate() {
-}
-
-// Commands
-function enterMarkMode(): void {
-    removeSelection();
-    inMarkMode = !inMarkMode;
-}
-
-function exitMarkMode(): void {
-    removeSelection();
-    inMarkMode = false;
 }
 
 // Helper functions
@@ -89,8 +72,8 @@ function moveCursor(editor: TextEditor, pos: Position): void {
     editor.selection = new Selection(pos, pos);
 }
 
-function removeSelection(): void {
-    const curPos = getCurrentPos(Window.activeTextEditor);
+function removeSelection(editor: TextEditor): void {
+    const curPos = getCurrentPos(editor);
     moveCursor(Window.activeTextEditor, curPos);
 }
 
@@ -102,13 +85,25 @@ function nextLineHome(pos: Position): Position {
     return pos.with(undefined, 0).translate(1);
 }
 
-function clipboardAction(verb: string) {
+function clipboardAction(editor: TextEditor, verb: string) {
+    // todo: refactor logic
     return vscode.commands.executeCommand("editor.action.clipboard" + verb + "Action").then(() => {
         if (inMarkMode) {
-            if (verb != "Cut") removeSelection();
+            if (verb != "Cut") removeSelection(editor);
             inMarkMode = false;
         }
     });
+}
+
+// Commands
+function enterMarkMode(editor: TextEditor): void {
+    removeSelection(editor);
+    inMarkMode = !inMarkMode;
+}
+
+function exitMarkMode(editor: TextEditor): void {
+    removeSelection(editor);
+    inMarkMode = false;
 }
 
 function duplicateAction(editor: TextEditor, edit: TextEditorEdit): void {
