@@ -81,10 +81,14 @@ function moveCursor(editor: TextEditor, pos: Position): void {
 
 function removeSelection(editor: TextEditor): void {
     const curPos = getCurrentPos(editor);
-    moveCursor(Window.activeTextEditor, curPos);
+    moveCursor(editor, curPos);
 }
 
-function hasSelectedText(editor: vscode.TextEditor): boolean {
+function resetSelection(editor: TextEditor): void {
+    editor.selections = editor.selections.map((s) => new Selection(s.active, s.active));
+}
+
+function hasSelectedText(editor: TextEditor): boolean {
     return !editor.selection.isEmpty;
 }
 
@@ -113,7 +117,7 @@ function exitMarkMode(editor: TextEditor): void {
 
 function clipboardCopyAction(editor: TextEditor) {
     return executeCommand("editor.action.clipboardCopyAction").then(() => {
-        removeSelection(editor);
+        resetSelection(editor);
         inMarkMode = false;
     });
 }
