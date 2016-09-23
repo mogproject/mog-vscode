@@ -16,6 +16,7 @@ import TextEditorEdit = vscode.TextEditorEdit;
 
 
 let inMarkMode = false;
+let keepMark = false;  // todo: refactor
 
 const supportedCursorMoves: string[] = [
     "cursorUp", "cursorDown", "cursorLeft", "cursorRight", "cursorHome", "cursorEnd",
@@ -34,7 +35,10 @@ export function activate(context: vscode.ExtensionContext) {
     ];
 
     supportedCursorMoves.forEach(s =>
-        commands.push(["mog." + s, () => vscode.commands.executeCommand(inMarkMode ? s + "Select" : s)])
+        commands.push(["mog." + s, () => {
+            vscode.commands.executeCommand(inMarkMode ? s + "Select" : s);
+            keepMark = inMarkMode;
+        }])
     );
 
     // Prepare edit command definitions
@@ -53,6 +57,15 @@ export function activate(context: vscode.ExtensionContext) {
     editCommands.forEach(c =>
         context.subscriptions.push(vscode.commands.registerTextEditorCommand(c[0], c[1]))
     );
+
+    // Subscribe listeners
+    Window.onDidChangeTextEditorSelection((e) => {
+        if (keepMark) {
+            keepMark = false;
+        } else {
+            inMarkMode = false;
+        }
+    });
 
     console.log("Activated extension: mog-vscode");
 }
@@ -113,7 +126,6 @@ function duplicateAction(editor: TextEditor, edit: TextEditorEdit): void {
     const endPos = hasSelectedText(editor) ? editor.selection.end : nextLineHome(curPos);
     const txt = editor.document.getText(new Range(startPos, endPos));
     edit.insert(startPos, txt);
-    inMarkMode = false;  // todo: to be a function
 }
 
 function killLineAction(editor: TextEditor, edit: TextEditorEdit): void {
