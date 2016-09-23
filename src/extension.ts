@@ -4,15 +4,12 @@ import * as vscode from 'vscode';
 const ncp = require("copy-paste");
 
 import Window = vscode.window;
-// import QuickPickItem = vscode.QuickPickItem;
-// import QuickPickOptions = vscode.QuickPickOptions;
-// import Document = vscode.TextDocument;
 import Position = vscode.Position;
 import Range = vscode.Range;
 import Selection = vscode.Selection;
-// import TextDocument = vscode.TextDocument;
 import TextEditor = vscode.TextEditor;
 import TextEditorEdit = vscode.TextEditorEdit;
+import executeCommand = vscode.commands.executeCommand;
 
 
 let inMarkMode = false;
@@ -31,19 +28,19 @@ export function activate(context: vscode.ExtensionContext) {
     let commands: Cmd[] = [
         ["mog.enterMarkMode", () => enterMarkMode(Window.activeTextEditor)],
         ["mog.exitMarkMode", () => exitMarkMode(Window.activeTextEditor)],
-        ["mog.editor.action.clipboardCopyAction", () => clipboardAction(Window.activeTextEditor, "Copy")]
+        ["mog.editor.action.clipboardCopyAction", () => clipboardCopyAction(Window.activeTextEditor)]
     ];
 
     supportedCursorMoves.forEach(s =>
         commands.push(["mog." + s, () => {
-            vscode.commands.executeCommand(inMarkMode ? s + "Select" : s);
+            executeCommand(inMarkMode ? s + "Select" : s);
             keepMark = inMarkMode;
         }])
     );
 
     // Prepare edit command definitions
     const editCommands: EditCmd[] = [
-        ["mog.editor.action.clipboardCutAction", (t, e) => clipboardAction(t, "Cut")],
+        ["mog.editor.action.clipboardCutAction", (t, e) => executeCommand("editor.action.clipboardCutAction")],
         ["mog.editor.action.duplicateAction", (t, e) => duplicateAction(t, e)],
         ["mog.editor.action.killLineAction", (t, e) => killLineAction(t, e)]
     ]
@@ -99,16 +96,6 @@ function nextLineHome(pos: Position): Position {
     return currentLineHome(pos).translate(1);
 }
 
-function clipboardAction(editor: TextEditor, verb: string) {
-    // todo: refactor logic
-    return vscode.commands.executeCommand("editor.action.clipboard" + verb + "Action").then(() => {
-        if (inMarkMode) {
-            if (verb != "Cut") removeSelection(editor);
-            inMarkMode = false;
-        }
-    });
-}
-
 function copyToClipboard(text: string): void {
     ncp.copy(text)
 }
@@ -122,6 +109,13 @@ function enterMarkMode(editor: TextEditor): void {
 function exitMarkMode(editor: TextEditor): void {
     removeSelection(editor);
     inMarkMode = false;
+}
+
+function clipboardCopyAction(editor: TextEditor) {
+    return executeCommand("editor.action.clipboardCopyAction").then(() => {
+        removeSelection(editor);
+        inMarkMode = false;
+    });
 }
 
 function duplicateAction(editor: TextEditor, edit: TextEditorEdit): void {
