@@ -18,11 +18,8 @@ import TextEditorEdit = vscode.TextEditorEdit;
 let inMarkMode = false;
 
 const supportedCursorMoves: string[] = [
-    "cursorUp", "cursorDown", "cursorLeft", "cursorRight",
-    "cursorHome", "cursorEnd",
-    "cursorWordLeft", "cursorWordRight",
-    "cursorPageDown", "cursorPageUp",
-    "cursorTop", "cursorBottom"
+    "cursorUp", "cursorDown", "cursorLeft", "cursorRight", "cursorHome", "cursorEnd",
+    "cursorWordLeft", "cursorWordRight", "cursorPageDown", "cursorPageUp", "cursorTop", "cursorBottom"
 ];
 
 export function activate(context: vscode.ExtensionContext) {
@@ -126,9 +123,9 @@ function killLineAction(editor: TextEditor, edit: TextEditorEdit): void {
     const target = new Range(curPos, endPos);
     const txt = editor.document.getText(target);
 
-    // Do nothing if the cursor is on the file end.
+    // Do nothing when the cursor is at the end of file.
     if (!txt) return;
 
-    copyToClipboard(txt);
     edit.delete(target);
+    copyToClipboard(txt);
 }

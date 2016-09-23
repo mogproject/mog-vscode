@@ -66,12 +66,14 @@
             { "key": "ctrl+shift+/", "command": "editor.action.commentLine", "when": "editorTextFocus" },
 
             { "key": "alt+g g", "command": "workbench.action.gotoLine" },
-            { "key": "ctrl+s", "command": "editor.action.nextMatchFindAction" },
-            { "key": "ctrl+r", "command": "emacs.editor.action.previousMatchFindAction" },
+            { "key": "ctrl+s", "command": "actions.find", "when": "!findWidgetVisible" },
+            { "key": "ctrl+s", "command": "editor.action.nextMatchFindAction", "when": "findWidgetVisible" },
+            { "key": "ctrl+r", "command": "actions.find", "when": "!findWidgetVisible" },
+            { "key": "ctrl+r", "command": "editor.action.previousMatchFindAction", "when": "findWidgetVisible" },
 
             { "key": "ctrl+g", "command": "closeReferenceSearchEditor", "when": "searchViewletVisible" },
             { "key": "ctrl+g", "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" },
-            { "key": "ctrl+g", "command": "closeFindWidget", "when": "editorTextFocus && findWidgetVisible" },
+            { "key": "ctrl+g", "command": "closeFindWidget", "when": "findWidgetVisible" },
             { "key": "ctrl+g", "command": "mog.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible"},
 
             {"key": "ctrl+x k","command": "workbench.action.closeActiveEditor","when": "editorTextFocus"},
