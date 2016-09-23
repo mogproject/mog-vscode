@@ -74,7 +74,7 @@
             { "key": "ctrl+g", "command": "closeReferenceSearchEditor", "when": "searchViewletVisible" },
             { "key": "ctrl+g", "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" },
             { "key": "ctrl+g", "command": "closeFindWidget", "when": "findWidgetVisible" },
-            { "key": "ctrl+g", "command": "mog.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible"},
+            { "key": "ctrl+g", "command": "mog.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible && !findWidgetVisible"},
 
             {"key": "ctrl+x k","command": "workbench.action.closeActiveEditor","when": "editorTextFocus"},
             {"key": "command+w","command": "workbench.action.closeActiveEditor","when": "editorTextFocus"},
