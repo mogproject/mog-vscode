@@ -1,6 +1,8 @@
 'use strict';
 
 import * as vscode from 'vscode';
+const ncp = require("copy-paste");
+
 import Window = vscode.window;
 // import QuickPickItem = vscode.QuickPickItem;
 // import QuickPickOptions = vscode.QuickPickOptions;
@@ -11,7 +13,6 @@ import Selection = vscode.Selection;
 // import TextDocument = vscode.TextDocument;
 import TextEditor = vscode.TextEditor;
 import TextEditorEdit = vscode.TextEditorEdit;
-const ncp = require("copy-paste");
 
 
 let inMarkMode = false;
@@ -20,8 +21,7 @@ const supportedCursorMoves: string[] = [
     "cursorUp", "cursorDown", "cursorLeft", "cursorRight",
     "cursorHome", "cursorEnd",
     "cursorWordLeft", "cursorWordRight",
-    "scrollPageDown", "scrollPageUp",
-    "scrollLineDown", "scrollLineUp",
+    "cursorPageDown", "cursorPageUp",
     "cursorTop", "cursorBottom"
 ];
 
@@ -95,6 +95,10 @@ function clipboardAction(editor: TextEditor, verb: string) {
     });
 }
 
+function copyToClipboard(text: string): void {
+    ncp.copy(text)
+}
+
 // Commands
 function enterMarkMode(editor: TextEditor): void {
     removeSelection(editor);
@@ -127,8 +131,4 @@ function killLineAction(editor: TextEditor, edit: TextEditorEdit): void {
 
     copyToClipboard(txt);
     edit.delete(target);
-}
-
-function copyToClipboard(text: string): void {
-    ncp.copy(text)
 }
