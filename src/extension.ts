@@ -91,8 +91,12 @@ function hasSelectedText(editor: vscode.TextEditor): boolean {
     return !editor.selection.isEmpty;
 }
 
+function currentLineHome(pos: Position): Position {
+    return pos.with(undefined, 0)
+}
+
 function nextLineHome(pos: Position): Position {
-    return pos.with(undefined, 0).translate(1);
+    return currentLineHome(pos).translate(1);
 }
 
 function clipboardAction(editor: TextEditor, verb: string) {
@@ -122,10 +126,11 @@ function exitMarkMode(editor: TextEditor): void {
 
 function duplicateAction(editor: TextEditor, edit: TextEditorEdit): void {
     const curPos = getCurrentPos(editor);
-    const startPos = hasSelectedText(editor) ? editor.selection.start : curPos.with(undefined, 0);
-    const endPos = hasSelectedText(editor) ? editor.selection.end : nextLineHome(curPos);
-    const txt = editor.document.getText(new Range(startPos, endPos));
-    edit.insert(startPos, txt);
+    const selections: Selection[] = hasSelectedText(editor)
+        ? editor.selections
+        : [new Selection(currentLineHome(curPos), nextLineHome(curPos))];
+
+    selections.forEach((s) => edit.insert(s.start, editor.document.getText(s)));
 }
 
 function killLineAction(editor: TextEditor, edit: TextEditorEdit): void {
