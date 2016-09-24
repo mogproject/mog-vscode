@@ -28,7 +28,9 @@ export function activate(context: vscode.ExtensionContext) {
     let commands: Cmd[] = [
         ["mog.enterMarkMode", () => enterMarkMode(Window.activeTextEditor)],
         ["mog.exitMarkMode", () => exitMarkMode(Window.activeTextEditor)],
-        ["mog.editor.action.clipboardCopyAction", () => clipboardCopyAction(Window.activeTextEditor)]
+        ["mog.editor.action.clipboardCopyAction", () => clipboardCopyAction(Window.activeTextEditor)],
+        ["mog.editor.action.commentLine", commentLine],
+        ["mog.editor.action.duplicateAndCommentLine", duplicateAndCommentLine]
     ];
 
     supportedCursorMoves.forEach(s =>
@@ -42,9 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
     const editCommands: EditCmd[] = [
         ["mog.editor.action.clipboardCutAction", (t, e) => executeCommand("editor.action.clipboardCutAction")],
         ["mog.editor.action.duplicateAction", duplicateAction],
-        ["mog.editor.action.killLineAction", killLineAction],
-        ["mog.editor.action.commentLine", commentLine],
-        ["mog.editor.action.duplicateAndCommentLine", duplicateAndCommentLine]
+        ["mog.editor.action.killLineAction", killLineAction]
     ]
 
     // Register non-edit commands
@@ -149,19 +149,19 @@ function killLineAction(t: TextEditor, e: TextEditorEdit): void {
     copyToClipboard(txt);
 }
 
-function commentLine(t: TextEditor, e: TextEditorEdit): PromiseLike<void> {
-    // Note: When this function is executed, the following console warning will appear.
-    //       "Edits from command mog.editor.action.commentLine were not applied."
+function commentLine(): PromiseLike<void> {
+    const t = Window.activeTextEditor;
     return executeCommand("editor.action.commentLine").then(() => {
         if (!hasSelectedText(t)) {
-            moveCursor(t, getCurrentPos(t).translate(1));
+            const curPos = getCurrentPos(t);
+            moveCursor(t, curPos.translate(1));
         };
     });
 }
 
-function duplicateAndCommentLine(t: TextEditor, e: TextEditorEdit) {
-    // duplicateAction(t, e).then(() => { executeCommand("editor.action.addCommentLine") });
-    // return executeCommand("editor.action.addCommentLine")
-    // .then(() => { return duplicateAction(t, e) });
-    // .then(() => { executeCommand("editor.action.removeCommentLine", t, e) });
+function duplicateAndCommentLine(): PromiseLike<void> {
+    const t = Window.activeTextEditor;
+    return executeCommand("editor.action.addCommentLine")
+        .then(() => { t.edit((e) => duplicateAction(t, e)) })
+        .then(() => { executeCommand("editor.action.removeCommentLine") });
 }
