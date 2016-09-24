@@ -65,6 +65,7 @@
             { "key": "ctrl+shift+c", "command": "mog.editor.action.duplicateAndCommentLine", "when": "editorTextFocus"},
             { "key": "ctrl+j",       "command": "editor.action.triggerSuggest", "when": "editorTextFocus" },
             { "key": "ctrl+k",       "command": "mog.editor.action.killLineAction", "when": "editorTextFocus" },
+            { "key": "ctrl+9",       "command": "mog.editor.action.toggleLetterCase", "when": "editorTextFocus" },
 
             { "key": "alt+-",        "command": "mog.editor.action.commentLine", "when": "editorTextFocus" },
             { "key": "ctrl+shift+/", "command": "mog.editor.action.commentLine", "when": "editorTextFocus" },

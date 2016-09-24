@@ -35,6 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
         ["mog.editor.action.selectRectangle", () => selectRectangle(Window.activeTextEditor)]
     ];
 
+    // cursor moves
     supportedCursorMoves.forEach(s =>
         commands.push(["mog." + s, () => {
             executeCommand(inMarkMode ? s + "Select" : s);
@@ -45,7 +46,8 @@ export function activate(context: vscode.ExtensionContext) {
     // Prepare edit command definitions
     const editCommands: EditCmd[] = [
         ["mog.editor.action.duplicateAction", duplicateAction],
-        ["mog.editor.action.killLineAction", killLineAction]
+        ["mog.editor.action.killLineAction", killLineAction],
+        ["mog.editor.action.toggleLetterCase", toggleLetterCase]
     ]
 
     // Register non-edit commands
@@ -68,6 +70,10 @@ export function deactivate() {
 }
 
 // Helper functions
+function isUpper(s: string): boolean {
+    return s == s.toUpperCase();
+}
+
 function resetMarkMode(ev: vscode.TextEditorSelectionChangeEvent): void {
     if (keepMark) {
         keepMark = false;
@@ -180,4 +186,20 @@ function duplicateAndCommentLine(): PromiseLike<void> {
     return executeCommand("editor.action.addCommentLine")
         .then(() => { t.edit((e) => duplicateAction(t, e)) })
         .then(() => { executeCommand("editor.action.removeCommentLine") });
+}
+
+function toggleLetterCase(t: TextEditor, e: TextEditorEdit): void {
+    if (hasSelectedText(t)) {
+        const isAllUpperCase = t.selections.every((s) => isUpper(t.document.getText(s)));
+        t.selections.forEach((s) => {
+            const text = t.document.getText(s)
+            e.replace(s, isAllUpperCase ? text.toLowerCase() : text.toUpperCase());
+        })
+    } else {
+        const curPos = getCurrentPos(t);
+        if (curPos.character == 0) return;
+        const target = new Range(curPos.translate(undefined, -1), curPos)
+        const text = t.document.getText(target)
+        e.replace(target, isUpper(text) ? text.toLowerCase() : text.toUpperCase());
+    }
 }
