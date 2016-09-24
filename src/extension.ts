@@ -1,12 +1,15 @@
-'use strict';
+"use strict";
 
-import * as vscode from 'vscode';
-import * as clipboard from 'copy-paste';
+import * as vscode from "vscode";
+
+import { removeSelection, hasSelectedText } from "./util/selectionUtil";
+import { joinLines } from "./command/join";
+import { toggleLetterCase } from "./command/letterCase";
+import { selectRectangle } from "./command/selection";
+import { commentLine } from "./command/comment";
+import { clipboardCopyAction, duplicateAction, killLineAction, duplicateAndCommentLine } from "./command/copy";
 
 import Window = vscode.window;
-import Position = vscode.Position;
-import Range = vscode.Range;
-import Selection = vscode.Selection;
 import TextEditor = vscode.TextEditor;
 import TextEditorEdit = vscode.TextEditorEdit;
 import executeCommand = vscode.commands.executeCommand;
@@ -39,11 +42,11 @@ export function activate(context: vscode.ExtensionContext) {
     supportedCursorMoves.map(s => {
         const sl = s + "Select";
         return [[s, () => inMarkMode ? sl : s], [sl, () => sl]];
-    }).forEach((xss) => {
+    }).forEach(xss => {
         xss.forEach((xs: [string, { (): string }]) =>
             commands.push(["mog." + xs[0], () => {
                 executeCommand(xs[1]());
-                keepMark += 1;
+                ++keepMark;
             }])
         )
     });
@@ -54,17 +57,12 @@ export function activate(context: vscode.ExtensionContext) {
         ["mog.editor.action.killLineAction", killLineAction],
         ["mog.editor.action.toggleLetterCase", toggleLetterCase],
         ["mog.editor.action.joinLines", joinLines]
-    ]
+    ];
 
-    // Register non-edit commands
-    commands.forEach(c =>
-        context.subscriptions.push(vscode.commands.registerCommand(c[0], c[1]))
-    );
-
-    // Register edit commands
-    editCommands.forEach(c =>
-        context.subscriptions.push(vscode.commands.registerTextEditorCommand(c[0], c[1]))
-    );
+    // Register commands
+    commands.map(c => vscode.commands.registerCommand(c[0], c[1]))
+        .concat(editCommands.map(c => vscode.commands.registerTextEditorCommand(c[0], c[1])))
+        .forEach(r => context.subscriptions.push(r));
 
     // Subscribe listeners
     Window.onDidChangeTextEditorSelection(resetMarkMode);
@@ -76,14 +74,10 @@ export function deactivate() {
 }
 
 // Helper functions
-function isUpper(s: string): boolean {
-    return s == s.toUpperCase();
-}
-
 function resetMarkMode(ev: vscode.TextEditorSelectionChangeEvent): void {
     if (inMarkMode) {
-        if (keepMark) {
-            keepMark -= 1;
+        if (keepMark > 0) {
+            --keepMark;
         } else {
             inMarkMode = false;
         }
@@ -92,43 +86,9 @@ function resetMarkMode(ev: vscode.TextEditorSelectionChangeEvent): void {
     }
 }
 
-function getCurrentPos(t: TextEditor): Position {
-    return t.selection.active;
-}
-
-function moveCursor(t: TextEditor, pos: Position): void {
-    t.selection = new Selection(pos, pos);
-}
-
-function removeSelection(t: TextEditor): void {
-    const curPos = getCurrentPos(t);
-    moveCursor(t, curPos);
-}
-
-function resetSelection(t: TextEditor): void {
-    t.selections = t.selections.map((s) => new Selection(s.active, s.active));
-}
-
-function hasSelectedText(t: TextEditor): boolean {
-    return !t.selection.isEmpty;
-}
-
-function currentLineHome(pos: Position): Position {
-    return pos.with(undefined, 0)
-}
-
-function nextLineHome(pos: Position): Position {
-    return currentLineHome(pos).translate(1);
-}
-
-function copyToClipboard(text: string): void {
-    clipboard.copy(text)
-}
-
 // Commands
 function enterMarkMode(t: TextEditor): void {
-    if (hasSelectedText(t) && !inMarkMode) keepMark += 1;
-    removeSelection(t);
+    if (hasSelectedText(t) && !inMarkMode) { ++keepMark; }
     removeSelection(t);
     inMarkMode = !inMarkMode;
 }
@@ -136,101 +96,4 @@ function enterMarkMode(t: TextEditor): void {
 function exitMarkMode(t: TextEditor): void {
     removeSelection(t);
     inMarkMode = false;
-}
-
-function selectRectangle(t: TextEditor): void {
-    if (!inMarkMode) {
-        // The mark is not set now, so there is no region
-        return;
-    }
-    const a = t.selection.anchor;
-    const b = t.selection.active;
-
-    let selections: Selection[] = []
-    for (let i = Math.min(a.line, b.line); i <= Math.max(a.line, b.line); ++i) {
-        selections.push(new Selection(new Position(i, a.character), new Position(i, b.character)));
-    }
-    t.selections = selections;
-}
-
-function clipboardCopyAction(t: TextEditor) {
-    return executeCommand("editor.action.clipboardCopyAction").then(() => {
-        resetSelection(t);
-        inMarkMode = false;
-    });
-}
-
-function duplicateAction(t: TextEditor, e: TextEditorEdit): void {
-    const expandSelection = !hasSelectedText(t) || (t.selections.length == 1 && !t.selection.isSingleLine);
-    const selections: Selection[] = expandSelection
-        ? [new Selection(currentLineHome(t.selection.start), nextLineHome(t.selection.end))]
-        : t.selections;
-
-    selections.forEach((s) => e.insert(s.start, t.document.getText(s)));
-}
-
-function killLineAction(t: TextEditor, e: TextEditorEdit): void {
-    const curPos = getCurrentPos(t);
-    const lineEnd = t.document.lineAt(curPos.line).range.end;
-    const endPos = curPos.isEqual(lineEnd) ? nextLineHome(curPos) : lineEnd;
-    const target = new Range(curPos, endPos);
-    const txt = t.document.getText(target);
-
-    // Do nothing when the cursor is at the end of file.
-    if (!txt) return;
-
-    e.delete(target);
-    copyToClipboard(txt);
-}
-
-function commentLine(): PromiseLike<void> {
-    const t = Window.activeTextEditor;
-    return executeCommand("editor.action.commentLine").then(() => {
-        if (!hasSelectedText(t)) {
-            const curPos = getCurrentPos(t);
-            moveCursor(t, curPos.translate(1));
-        };
-    });
-}
-
-function duplicateAndCommentLine(): PromiseLike<void> {
-    const t = Window.activeTextEditor;
-    return executeCommand("editor.action.addCommentLine")
-        .then(() => { t.edit((e) => duplicateAction(t, e)) })
-        .then(() => { executeCommand("editor.action.removeCommentLine") });
-}
-
-function toggleLetterCase(t: TextEditor, e: TextEditorEdit): void {
-    if (hasSelectedText(t)) {
-        const isAllUpperCase = t.selections.every((s) => isUpper(t.document.getText(s)));
-        t.selections.forEach((s) => {
-            const text = t.document.getText(s)
-            e.replace(s, isAllUpperCase ? text.toLowerCase() : text.toUpperCase());
-        })
-    } else {
-        const curPos = getCurrentPos(t);
-        if (curPos.character == 0) return;
-        const target = new Range(curPos.translate(undefined, -1), curPos)
-        const text = t.document.getText(target)
-        e.replace(target, isUpper(text) ? text.toLowerCase() : text.toUpperCase());
-    }
-}
-
-function joinOneLine(t: TextEditor, e: TextEditorEdit, line: number): void {
-    const lineEnd = t.document.lineAt(line).range.end;
-    const r = new Range(lineEnd, new Position(line + 1, t.document.lineAt(line + 1).firstNonWhitespaceCharacterIndex));
-    e.replace(r, " ");
-}
-
-function joinLines(t: TextEditor, e: TextEditorEdit): void {
-    const curPos = getCurrentPos(t);
-    const target: number[][] = hasSelectedText(t)
-        ? t.selections.map((s) => [s.start.line, s.end.line])
-        : [[curPos.line, curPos.line + 1]];
-    target.forEach((xs) => {
-        for (let i = xs[0]; i < xs[1]; ++i) {
-            joinOneLine(t, e, i);
-        }
-    });
-    removeSelection(t);
 }
