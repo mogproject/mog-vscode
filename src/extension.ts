@@ -29,6 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
         ["mog.enterMarkMode", () => enterMarkMode(Window.activeTextEditor)],
         ["mog.exitMarkMode", () => exitMarkMode(Window.activeTextEditor)],
         ["mog.editor.action.clipboardCopyAction", () => clipboardCopyAction(Window.activeTextEditor)],
+        ["mog.editor.action.clipboardCutAction", () => executeCommand("editor.action.clipboardCutAction")],
         ["mog.editor.action.commentLine", commentLine],
         ["mog.editor.action.duplicateAndCommentLine", duplicateAndCommentLine]
     ];
@@ -42,7 +43,6 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Prepare edit command definitions
     const editCommands: EditCmd[] = [
-        ["mog.editor.action.clipboardCutAction", (t, e) => executeCommand("editor.action.clipboardCutAction")],
         ["mog.editor.action.duplicateAction", duplicateAction],
         ["mog.editor.action.killLineAction", killLineAction]
     ]
