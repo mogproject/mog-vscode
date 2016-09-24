@@ -36,12 +36,16 @@ export function activate(context: vscode.ExtensionContext) {
     ];
 
     // cursor moves
-    supportedCursorMoves.forEach(s =>
+    supportedCursorMoves.forEach(s => {
         commands.push(["mog." + s, () => {
             executeCommand(inMarkMode ? s + "Select" : s);
             keepMark = inMarkMode;
+        }]);
+        commands.push(["mog." + s + "Select", () => {
+            executeCommand(s + "Select");
+            keepMark = inMarkMode;
         }])
-    );
+    });
 
     // Prepare edit command definitions
     const editCommands: EditCmd[] = [
@@ -75,10 +79,14 @@ function isUpper(s: string): boolean {
 }
 
 function resetMarkMode(ev: vscode.TextEditorSelectionChangeEvent): void {
-    if (keepMark) {
-        keepMark = false;
+    if (inMarkMode) {
+        if (keepMark) {
+            keepMark = false;
+        } else {
+            inMarkMode = false;
+        }
     } else {
-        inMarkMode = false;
+        keepMark = false;
     }
 }
 
@@ -117,6 +125,8 @@ function copyToClipboard(text: string): void {
 
 // Commands
 function enterMarkMode(t: TextEditor): void {
+    if (hasSelectedText(t) && !inMarkMode) keepMark = true;
+    removeSelection(t);
     removeSelection(t);
     inMarkMode = !inMarkMode;
 }
