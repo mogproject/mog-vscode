@@ -26,12 +26,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Prepare non-edit command definitions
     let commands: Cmd[] = [
-        ["mog.enterMarkMode", () => enterMarkMode(Window.activeTextEditor)],
-        ["mog.exitMarkMode", () => exitMarkMode(Window.activeTextEditor)],
+        ["mog.editor.action.enterMarkMode", () => enterMarkMode(Window.activeTextEditor)],
+        ["mog.editor.action.exitMarkMode", () => exitMarkMode(Window.activeTextEditor)],
         ["mog.editor.action.clipboardCopyAction", () => clipboardCopyAction(Window.activeTextEditor)],
         ["mog.editor.action.clipboardCutAction", () => executeCommand("editor.action.clipboardCutAction")],
         ["mog.editor.action.commentLine", commentLine],
-        ["mog.editor.action.duplicateAndCommentLine", duplicateAndCommentLine]
+        ["mog.editor.action.duplicateAndCommentLine", duplicateAndCommentLine],
+        ["mog.editor.action.selectRectangle", () => selectRectangle(Window.activeTextEditor)]
     ];
 
     supportedCursorMoves.forEach(s =>
@@ -117,6 +118,21 @@ function enterMarkMode(t: TextEditor): void {
 function exitMarkMode(t: TextEditor): void {
     removeSelection(t);
     inMarkMode = false;
+}
+
+function selectRectangle(t: TextEditor): void {
+    if (!inMarkMode) {
+        // The mark is not set now, so there is no region
+        return;
+    }
+    const a = t.selection.anchor;
+    const b = t.selection.active;
+
+    let selections: Selection[] = []
+    for (let i = Math.min(a.line, b.line); i <= Math.max(a.line, b.line); ++i) {
+        selections.push(new Selection(new Position(i, a.character), new Position(i, b.character)));
+    }
+    t.selections = selections;
 }
 
 function clipboardCopyAction(t: TextEditor) {

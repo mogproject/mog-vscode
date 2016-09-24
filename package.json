@@ -21,10 +21,11 @@
     "main": "./out/src/extension",
     "contributes": {
         "keybindings": [
-            { "key": "ctrl+space", "command": "mog.enterMarkMode", "when": "editorTextFocus" },
-            { "key": "escape", "command": "mog.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "ctrl+space", "command": "mog.editor.action.enterMarkMode", "when": "editorTextFocus" },
+            { "key": "escape", "command": "mog.editor.action.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible" },
 
             { "key": "ctrl+x h", "command": "editor.action.selectAll", "when": "editorTextFocus" },
+            { "key": "ctrl+x r", "command": "mog.editor.action.selectRectangle", "when": "editorTextFocus" },
 
             { "key": "up",     "command": "mog.cursorUp",     "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "ctrl+p", "command": "mog.cursorUp",     "when": "editorTextFocus && !suggestWidgetVisible" },
@@ -77,7 +78,7 @@
             { "key": "ctrl+g", "command": "closeReferenceSearchEditor", "when": "searchViewletVisible" },
             { "key": "ctrl+g", "command": "hideSuggestWidget", "when": "editorTextFocus && suggestWidgetVisible" },
             { "key": "ctrl+g", "command": "closeFindWidget", "when": "findWidgetVisible" },
-            { "key": "ctrl+g", "command": "mog.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible && !findWidgetVisible"},
+            { "key": "ctrl+g", "command": "mog.editor.action.exitMarkMode", "when": "editorTextFocus && !suggestWidgetVisible && !findWidgetVisible"},
 
             {"key": "ctrl+x k","command": "workbench.action.closeActiveEditor","when": "editorTextFocus"},
             {"key": "cmd+w","command": "workbench.action.closeActiveEditor","when": "editorTextFocus"},
