@@ -1,11 +1,15 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es5",
+        "target": "es6",
         "outDir": "out",
+        "rootDir": ".",
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
         "noLib": true,
         "sourceMap": true,
-        "rootDir": "."
+        "strictNullChecks": true,
+        "experimentalDecorators": true
     },
     "exclude": [
         "node_modules",

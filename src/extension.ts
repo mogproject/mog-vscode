@@ -1,7 +1,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
-const ncp = require("copy-paste");
+import * as clipboard from 'copy-paste';
 
 import Window = vscode.window;
 import Position = vscode.Position;
@@ -43,7 +43,8 @@ export function activate(context: vscode.ExtensionContext) {
         ["mog.editor.action.clipboardCutAction", (t, e) => executeCommand("editor.action.clipboardCutAction")],
         ["mog.editor.action.duplicateAction", duplicateAction],
         ["mog.editor.action.killLineAction", killLineAction],
-        ["mog.editor.action.commentLine", commentLine]
+        ["mog.editor.action.commentLine", commentLine],
+        ["mog.editor.action.duplicateAndCommentLine", duplicateAndCommentLine]
     ]
 
     // Register non-edit commands
@@ -104,7 +105,7 @@ function nextLineHome(pos: Position): Position {
 }
 
 function copyToClipboard(text: string): void {
-    ncp.copy(text)
+    clipboard.copy(text)
 }
 
 // Commands
@@ -148,12 +149,19 @@ function killLineAction(t: TextEditor, e: TextEditorEdit): void {
     copyToClipboard(txt);
 }
 
-function commentLine(t: TextEditor, e: TextEditorEdit): void {
+function commentLine(t: TextEditor, e: TextEditorEdit): PromiseLike<void> {
     // Note: When this function is executed, the following console warning will appear.
     //       "Edits from command mog.editor.action.commentLine were not applied."
-    executeCommand("editor.action.commentLine").then(() => {
+    return executeCommand("editor.action.commentLine").then(() => {
         if (!hasSelectedText(t)) {
             moveCursor(t, getCurrentPos(t).translate(1));
         };
     });
+}
+
+function duplicateAndCommentLine(t: TextEditor, e: TextEditorEdit) {
+    // duplicateAction(t, e).then(() => { executeCommand("editor.action.addCommentLine") });
+    // return executeCommand("editor.action.addCommentLine")
+    // .then(() => { return duplicateAction(t, e) });
+    // .then(() => { executeCommand("editor.action.removeCommentLine", t, e) });
 }
