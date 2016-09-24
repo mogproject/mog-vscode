@@ -74,25 +74,25 @@ function resetMarkMode(ev: vscode.TextEditorSelectionChangeEvent): void {
     }
 }
 
-function getCurrentPos(editor: TextEditor): Position {
-    return editor.selection.active;
+function getCurrentPos(t: TextEditor): Position {
+    return t.selection.active;
 }
 
-function moveCursor(editor: TextEditor, pos: Position): void {
-    editor.selection = new Selection(pos, pos);
+function moveCursor(t: TextEditor, pos: Position): void {
+    t.selection = new Selection(pos, pos);
 }
 
-function removeSelection(editor: TextEditor): void {
-    const curPos = getCurrentPos(editor);
-    moveCursor(editor, curPos);
+function removeSelection(t: TextEditor): void {
+    const curPos = getCurrentPos(t);
+    moveCursor(t, curPos);
 }
 
-function resetSelection(editor: TextEditor): void {
-    editor.selections = editor.selections.map((s) => new Selection(s.active, s.active));
+function resetSelection(t: TextEditor): void {
+    t.selections = t.selections.map((s) => new Selection(s.active, s.active));
 }
 
-function hasSelectedText(editor: TextEditor): boolean {
-    return !editor.selection.isEmpty;
+function hasSelectedText(t: TextEditor): boolean {
+    return !t.selection.isEmpty;
 }
 
 function currentLineHome(pos: Position): Position {
@@ -108,52 +108,52 @@ function copyToClipboard(text: string): void {
 }
 
 // Commands
-function enterMarkMode(editor: TextEditor): void {
-    removeSelection(editor);
+function enterMarkMode(t: TextEditor): void {
+    removeSelection(t);
     inMarkMode = !inMarkMode;
 }
 
-function exitMarkMode(editor: TextEditor): void {
-    removeSelection(editor);
+function exitMarkMode(t: TextEditor): void {
+    removeSelection(t);
     inMarkMode = false;
 }
 
-function clipboardCopyAction(editor: TextEditor) {
+function clipboardCopyAction(t: TextEditor) {
     return executeCommand("editor.action.clipboardCopyAction").then(() => {
-        resetSelection(editor);
+        resetSelection(t);
         inMarkMode = false;
     });
 }
 
-function duplicateAction(editor: TextEditor, edit: TextEditorEdit): void {
-    const curPos = getCurrentPos(editor);
-    const selections: Selection[] = hasSelectedText(editor)
-        ? editor.selections
-        : [new Selection(currentLineHome(curPos), nextLineHome(curPos))];
+function duplicateAction(t: TextEditor, e: TextEditorEdit): void {
+    const expandSelection = !hasSelectedText(t) || (t.selections.length == 1 && !t.selection.isSingleLine);
+    const selections: Selection[] = expandSelection
+        ? [new Selection(currentLineHome(t.selection.start), nextLineHome(t.selection.end))]
+        : t.selections;
 
-    selections.forEach((s) => edit.insert(s.start, editor.document.getText(s)));
+    selections.forEach((s) => e.insert(s.start, t.document.getText(s)));
 }
 
-function killLineAction(editor: TextEditor, edit: TextEditorEdit): void {
-    const curPos = getCurrentPos(editor);
-    const lineEnd = editor.document.lineAt(curPos.line).range.end;
+function killLineAction(t: TextEditor, e: TextEditorEdit): void {
+    const curPos = getCurrentPos(t);
+    const lineEnd = t.document.lineAt(curPos.line).range.end;
     const endPos = curPos.isEqual(lineEnd) ? nextLineHome(curPos) : lineEnd;
     const target = new Range(curPos, endPos);
-    const txt = editor.document.getText(target);
+    const txt = t.document.getText(target);
 
     // Do nothing when the cursor is at the end of file.
     if (!txt) return;
 
-    edit.delete(target);
+    e.delete(target);
     copyToClipboard(txt);
 }
 
-function commentLine(editor: TextEditor, edit: TextEditorEdit): void {
+function commentLine(t: TextEditor, e: TextEditorEdit): void {
     // Note: When this function is executed, the following console warning will appear.
     //       "Edits from command mog.editor.action.commentLine were not applied."
-    executeCommand("editor.action.commentLine").then((e) => {
-        if (!hasSelectedText(editor)) {
-            moveCursor(editor, getCurrentPos(editor).translate(1));
+    executeCommand("editor.action.commentLine").then(() => {
+        if (!hasSelectedText(t)) {
+            moveCursor(t, getCurrentPos(t).translate(1));
         };
     });
 }
