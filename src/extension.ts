@@ -41,8 +41,9 @@ export function activate(context: vscode.ExtensionContext) {
     // Prepare edit command definitions
     const editCommands: EditCmd[] = [
         ["mog.editor.action.clipboardCutAction", (t, e) => executeCommand("editor.action.clipboardCutAction")],
-        ["mog.editor.action.duplicateAction", (t, e) => duplicateAction(t, e)],
-        ["mog.editor.action.killLineAction", (t, e) => killLineAction(t, e)]
+        ["mog.editor.action.duplicateAction", duplicateAction],
+        ["mog.editor.action.killLineAction", killLineAction],
+        ["mog.editor.action.commentLine", commentLine]
     ]
 
     // Register non-edit commands
@@ -56,13 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Subscribe listeners
-    Window.onDidChangeTextEditorSelection((e) => {
-        if (keepMark) {
-            keepMark = false;
-        } else {
-            inMarkMode = false;
-        }
-    });
+    Window.onDidChangeTextEditorSelection(resetMarkMode);
 
     console.log("Activated extension: mog-vscode");
 }
@@ -71,6 +66,14 @@ export function deactivate() {
 }
 
 // Helper functions
+function resetMarkMode(ev: vscode.TextEditorSelectionChangeEvent): void {
+    if (keepMark) {
+        keepMark = false;
+    } else {
+        inMarkMode = false;
+    }
+}
+
 function getCurrentPos(editor: TextEditor): Position {
     return editor.selection.active;
 }
@@ -143,4 +146,14 @@ function killLineAction(editor: TextEditor, edit: TextEditorEdit): void {
 
     edit.delete(target);
     copyToClipboard(txt);
+}
+
+function commentLine(editor: TextEditor, edit: TextEditorEdit): void {
+    // Note: When this function is executed, the following console warning will appear.
+    //       "Edits from command mog.editor.action.commentLine were not applied."
+    executeCommand("editor.action.commentLine").then((e) => {
+        if (!hasSelectedText(editor)) {
+            moveCursor(editor, getCurrentPos(editor).translate(1));
+        };
+    });
 }

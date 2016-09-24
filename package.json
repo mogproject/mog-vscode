@@ -36,8 +36,10 @@
             { "key": "ctrl+f", "command": "mog.cursorRight",  "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "home",   "command": "mog.cursorHome",   "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "ctrl+a", "command": "mog.cursorHome",   "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "command+left", "command": "mog.cursorHome",   "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "end",    "command": "mog.cursorEnd",    "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "ctrl+e", "command": "mog.cursorEnd",    "when": "editorTextFocus && !suggestWidgetVisible" },
+            { "key": "command+right", "command": "mog.cursorEnd",    "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "Alt+b", "command": "mog.cursorWordLeft",   "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "Alt+f",  "command": "mog.cursorWordRight",  "when": "editorTextFocus && !suggestWidgetVisible" },
             { "key": "pagedown", "command": "mog.cursorPageDown", "when": "editorTextFocus && !suggestWidgetVisible" },
@@ -62,8 +64,8 @@
             { "key": "ctrl+j",       "command": "editor.action.triggerSuggest", "when": "editorTextFocus" },
             { "key": "ctrl+k",       "command": "mog.editor.action.killLineAction", "when": "editorTextFocus" },
 
-            { "key": "alt+-",        "command": "editor.action.commentLine", "when": "editorTextFocus" },
-            { "key": "ctrl+shift+/", "command": "editor.action.commentLine", "when": "editorTextFocus" },
+            { "key": "alt+-",        "command": "mog.editor.action.commentLine", "when": "editorTextFocus" },
+            { "key": "ctrl+shift+/", "command": "mog.editor.action.commentLine", "when": "editorTextFocus" },
 
             { "key": "alt+g g", "command": "workbench.action.gotoLine" },
             { "key": "ctrl+s", "command": "actions.find", "when": "!findWidgetVisible" },
