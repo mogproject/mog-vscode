@@ -68,15 +68,15 @@
             { "key": "ctrl+x u", "command": "undo", "when": "editorTextFocus"},
             { "key": "ctrl+/", "command": "undo", "when": "editorTextFocus"},
 
-            { "key": "ctrl+w",       "command": "mog.editor.action.clipboardCutAction",  "when": "editorTextFocus"},
-            { "key": "alt+w",        "command": "mog.editor.action.clipboardCopyAction", "when": "editorTextFocus"},
-            { "key": "ctrl+y",       "command": "editor.action.clipboardPasteAction", "when": "editorTextFocus"},
-            { "key": "ctrl+shift+d", "command": "mog.editor.action.duplicateAction", "when": "editorTextFocus"},
+            { "key": "ctrl+w",       "command": "mog.editor.action.clipboardCutAction",      "when": "editorTextFocus"},
+            { "key": "alt+w",        "command": "mog.editor.action.clipboardCopyAction",     "when": "editorTextFocus"},
+            { "key": "ctrl+y",       "command": "editor.action.clipboardPasteAction",        "when": "editorTextFocus"},
+            { "key": "ctrl+shift+d", "command": "mog.editor.action.duplicateAction",         "when": "editorTextFocus"},
             { "key": "ctrl+shift+c", "command": "mog.editor.action.duplicateAndCommentLine", "when": "editorTextFocus"},
-            { "key": "ctrl+j",       "command": "editor.action.triggerSuggest", "when": "editorTextFocus" },
-            { "key": "ctrl+k",       "command": "mog.editor.action.killLineAction", "when": "editorTextFocus" },
-            { "key": "ctrl+9",       "command": "mog.editor.action.toggleLetterCase", "when": "editorTextFocus" },
-
+            { "key": "ctrl+j",       "command": "editor.action.triggerSuggest",              "when": "editorTextFocus" },
+            { "key": "ctrl+k",       "command": "mog.editor.action.killLineAction",          "when": "editorTextFocus" },
+            { "key": "ctrl+9",       "command": "mog.editor.action.toggleLetterCase",        "when": "editorTextFocus" },
+            { "key": "alt+j",        "command": "mog.editor.action.joinLines",               "when": "editorTextFocus" },
             { "key": "alt+-",        "command": "mog.editor.action.commentLine", "when": "editorTextFocus" },
             { "key": "ctrl+shift+/", "command": "mog.editor.action.commentLine", "when": "editorTextFocus" },
 

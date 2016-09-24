@@ -36,22 +36,24 @@ export function activate(context: vscode.ExtensionContext) {
     ];
 
     // cursor moves
-    supportedCursorMoves.forEach(s => {
-        commands.push(["mog." + s, () => {
-            executeCommand(inMarkMode ? s + "Select" : s);
-            keepMark += 1;
-        }]);
-        commands.push(["mog." + s + "Select", () => {
-            executeCommand(s + "Select");
-            keepMark += 1;
-        }])
+    supportedCursorMoves.map(s => {
+        const sl = s + "Select";
+        return [[s, () => inMarkMode ? sl : s], [sl, () => sl]];
+    }).forEach((xss) => {
+        xss.forEach((xs: [string, { (): string }]) =>
+            commands.push(["mog." + xs[0], () => {
+                executeCommand(xs[1]());
+                keepMark += 1;
+            }])
+        )
     });
 
     // Prepare edit command definitions
     const editCommands: EditCmd[] = [
         ["mog.editor.action.duplicateAction", duplicateAction],
         ["mog.editor.action.killLineAction", killLineAction],
-        ["mog.editor.action.toggleLetterCase", toggleLetterCase]
+        ["mog.editor.action.toggleLetterCase", toggleLetterCase],
+        ["mog.editor.action.joinLines", joinLines]
     ]
 
     // Register non-edit commands
@@ -212,4 +214,23 @@ function toggleLetterCase(t: TextEditor, e: TextEditorEdit): void {
         const text = t.document.getText(target)
         e.replace(target, isUpper(text) ? text.toLowerCase() : text.toUpperCase());
     }
+}
+
+function joinOneLine(t: TextEditor, e: TextEditorEdit, line: number): void {
+    const lineEnd = t.document.lineAt(line).range.end;
+    const r = new Range(lineEnd, new Position(line + 1, t.document.lineAt(line + 1).firstNonWhitespaceCharacterIndex));
+    e.replace(r, " ");
+}
+
+function joinLines(t: TextEditor, e: TextEditorEdit): void {
+    const curPos = getCurrentPos(t);
+    const target: number[][] = hasSelectedText(t)
+        ? t.selections.map((s) => [s.start.line, s.end.line])
+        : [[curPos.line, curPos.line + 1]];
+    target.forEach((xs) => {
+        for (let i = xs[0]; i < xs[1]; ++i) {
+            joinOneLine(t, e, i);
+        }
+    });
+    removeSelection(t);
 }
