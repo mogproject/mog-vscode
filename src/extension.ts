@@ -13,7 +13,7 @@ import executeCommand = vscode.commands.executeCommand;
 
 
 let inMarkMode = false;
-let keepMark = false;  // todo: refactor
+let keepMark = 0;  // todo: refactor
 
 const supportedCursorMoves: string[] = [
     "cursorUp", "cursorDown", "cursorLeft", "cursorRight", "cursorHome", "cursorEnd",
@@ -39,11 +39,11 @@ export function activate(context: vscode.ExtensionContext) {
     supportedCursorMoves.forEach(s => {
         commands.push(["mog." + s, () => {
             executeCommand(inMarkMode ? s + "Select" : s);
-            keepMark = inMarkMode;
+            keepMark += 1;
         }]);
         commands.push(["mog." + s + "Select", () => {
             executeCommand(s + "Select");
-            keepMark = inMarkMode;
+            keepMark += 1;
         }])
     });
 
@@ -81,12 +81,12 @@ function isUpper(s: string): boolean {
 function resetMarkMode(ev: vscode.TextEditorSelectionChangeEvent): void {
     if (inMarkMode) {
         if (keepMark) {
-            keepMark = false;
+            keepMark -= 1;
         } else {
             inMarkMode = false;
         }
     } else {
-        keepMark = false;
+        keepMark = 0;
     }
 }
 
@@ -125,7 +125,7 @@ function copyToClipboard(text: string): void {
 
 // Commands
 function enterMarkMode(t: TextEditor): void {
-    if (hasSelectedText(t) && !inMarkMode) keepMark = true;
+    if (hasSelectedText(t) && !inMarkMode) keepMark += 1;
     removeSelection(t);
     removeSelection(t);
     inMarkMode = !inMarkMode;
