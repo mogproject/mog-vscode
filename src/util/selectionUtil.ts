@@ -34,3 +34,7 @@ export function currentLineHome(pos: Position): Position {
 export function nextLineHome(pos: Position): Position {
     return currentLineHome(pos).translate(1);
 }
+
+export function isLineEnd(t: TextEditor, pos: Position): boolean {
+    return pos == t.document.lineAt(pos.line).range.end;
+}

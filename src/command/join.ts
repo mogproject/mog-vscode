@@ -14,7 +14,8 @@ function joinOneLine(t: TextEditor, e: TextEditorEdit, line: number): void {
     const lineEnd = t.document.lineAt(line).range.end;
     const nextLineChar = t.document.lineAt(line + 1).firstNonWhitespaceCharacterIndex;
     const r = new Range(lineEnd, new Position(line + 1, nextLineChar));
-    e.replace(r, " ");
+    e.delete(r);
+    e.insert(r.start, " ");
 }
 
 export function joinLines(t: TextEditor, e: TextEditorEdit): void {
