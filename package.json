@@ -107,7 +107,17 @@
 
             {"key": "ctrl+l","command": "editor.action.format","when": "editorTextFocus"},
 
-            {"key": "alt+enter","command": "workbench.action.tasks.test","when": "editorTextFocus"}
+            {"key": "alt+0","command": "mog.ext.cmd_0"},
+            {"key": "alt+1","command": "mog.ext.cmd_1"},
+            {"key": "alt+2","command": "mog.ext.cmd_2"},
+            {"key": "alt+3","command": "mog.ext.cmd_3"},
+            {"key": "alt+4","command": "mog.ext.cmd_4"},
+            {"key": "alt+5","command": "mog.ext.cmd_5"},
+            {"key": "alt+6","command": "mog.ext.cmd_6"},
+            {"key": "alt+7","command": "mog.ext.cmd_7"},
+            {"key": "alt+8","command": "mog.ext.cmd_8"},
+            {"key": "alt+9","command": "mog.ext.cmd_9"},
+            {"key": "alt+enter","command": "mog.ext.cmd_enter"}
         ]
     },
     "scripts": {
