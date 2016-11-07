@@ -6,9 +6,11 @@
         "rootDir": ".",
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
-        "noLib": true,
+        "lib": [
+            "es6"
+        ],
         "sourceMap": true,
-        "strictNullChecks": true,
+        "strictNullChecks": false,
         "experimentalDecorators": true
     },
     "exclude": [
