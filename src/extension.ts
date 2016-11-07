@@ -10,6 +10,7 @@ import { selectRectangle } from "./command/selection";
 import { commentLine } from "./command/comment";
 import { clipboardCopyAction, duplicateAction, killLineAction, duplicateAndCommentLine } from "./command/copy";
 import { ExternalCommand } from "./command/externalCommand"
+import { formatAction } from "./command/format"
 
 import Window = vscode.window;
 import TextEditor = vscode.TextEditor;
@@ -37,7 +38,8 @@ export function activate(context: vscode.ExtensionContext) {
         ["mog.editor.action.clipboardCutAction", () => executeCommand("editor.action.clipboardCutAction")],
         ["mog.editor.action.commentLine", commentLine],
         ["mog.editor.action.duplicateAndCommentLine", duplicateAndCommentLine],
-        ["mog.editor.action.selectRectangle", () => selectRectangle(Window.activeTextEditor)]
+        ["mog.editor.action.selectRectangle", () => selectRectangle(Window.activeTextEditor)],
+        ["mog.editor.action.format", formatAction]
     ];
 
     // cursor moves

@@ -2,7 +2,7 @@
     "name": "mog-vscode",
     "displayName": "mog-vscode",
     "description": "",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "mogproject",
     "license": "Apache-2.0",
     "repository": {
@@ -10,7 +10,7 @@
         "url": "https://github.com/mogproject/mog-vscode"
     },
     "engines": {
-        "vscode": "^1.5.0"
+        "vscode": "^1.7.0"
     },
     "categories": [
         "Other"
@@ -105,7 +105,7 @@
             {"key": "ctrl+x n","command": "workbench.action.nextEditor","when": "editorTextFocus"},
             {"key": "ctrl+pagedown","command": "workbench.action.nextEditor","when": "editorTextFocus"},
 
-            {"key": "ctrl+l","command": "editor.action.format","when": "editorTextFocus"},
+            {"key": "ctrl+l","command": "mog.editor.action.format","when": "editorTextFocus"},
 
             {"key": "alt+0","command": "mog.ext.cmd_0"},
             {"key": "alt+1","command": "mog.ext.cmd_1"},
