@@ -9,6 +9,6 @@ import executeCommand = vscode.commands.executeCommand;
 
 export function formatAction() {
     const t = vscode.window.activeTextEditor;
-    const cmd = hasSelectedText(t) ? "editor.action.formatSelection" : "editor.action.formatDocument";
+    const cmd =  (t !== undefined && hasSelectedText(t)) ? "editor.action.formatSelection" : "editor.action.formatDocument";
     return executeCommand(cmd);
 }
