@@ -1,22 +1,29 @@
 # mog-vscode
+
 EXPERIMENTAL: Extension for Visual Studio Code
+
+## Dependencies
+
+- vsce: `npm install -g vsce`
 
 ## Installation
 
 ```
-cd ~/.vscode/extensions
 git clone git@github.com:mogproject/mog-vscode.git
 cd mog-vscode
 npm install
-npm run vscode:prepublish
+vsce package
 ```
+
+- Install `mog-vscode-x.x.x.vsix` in VS Code.
 
 ## Update
 
 ```
-cd ~/.vscode/extensions/mog-vscode
 git pull
 npm install
-npm run vscode:prepublish
+vsce package
 ```
+
+- Install `mog-vscode-x.x.x.vsix` in VS Code.
 
