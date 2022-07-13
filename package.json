@@ -1,459 +1,457 @@
 {
-    "name": "mog-vscode",
-    "displayName": "mog-vscode",
-    "description": "",
-    "version": "0.0.2",
-    "publisher": "mogproject",
-    "license": "Apache-2.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mogproject/mog-vscode"
-    },
-    "engines": {
-        "vscode": "^1.7.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "*"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "keybindings": [
-            {
-                "key": "ctrl+space",
-                "command": "mog.editor.action.enterMarkMode",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "escape",
-                "command": "mog.editor.action.exitMarkMode",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+x h",
-                "command": "editor.action.selectAll",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+x r",
-                "command": "mog.editor.action.selectRectangle",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "up",
-                "command": "mog.cursorUp",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+p",
-                "command": "mog.cursorUp",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+up",
-                "command": "mog.cursorUpSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "down",
-                "command": "mog.cursorDown",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+n",
-                "command": "mog.cursorDown",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+down",
-                "command": "mog.cursorDownSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "left",
-                "command": "mog.cursorLeft",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+b",
-                "command": "mog.cursorLeft",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+left",
-                "command": "mog.cursorLeftSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "right",
-                "command": "mog.cursorRight",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+f",
-                "command": "mog.cursorRight",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+right",
-                "command": "mog.cursorRightSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "home",
-                "command": "mog.cursorHome",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+a",
-                "command": "mog.cursorHome",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "cmd+left",
-                "command": "mog.cursorHome",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+home",
-                "command": "mog.cursorHomeSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "cmd+shift+left",
-                "command": "mog.cursorHomeSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "end",
-                "command": "mog.cursorEnd",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+e",
-                "command": "mog.cursorEnd",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "cmd+right",
-                "command": "mog.cursorEnd",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+end",
-                "command": "mog.cursorEndSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "cmd+shift+right",
-                "command": "mog.cursorEndSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "Alt+b",
-                "command": "mog.cursorWordLeft",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "Alt+f",
-                "command": "mog.cursorWordRight",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "pagedown",
-                "command": "mog.cursorPageDown",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+v",
-                "command": "mog.cursorPageDown",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+pagedown",
-                "command": "mog.cursorPageDownSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+v",
-                "command": "selectNextPageSuggestion",
-                "when": "editorTextFocus && suggestWidgetVisible"
-            },
-            {
-                "key": "pageup",
-                "command": "mog.cursorPageUp",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "alt+v",
-                "command": "mog.cursorPageUp",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "shift+pageup",
-                "command": "mog.cursorPageUpSelect",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "alt+v",
-                "command": "selectPrevPageSuggestion",
-                "when": "editorTextFocus && suggestWidgetVisible"
-            },
-            {
-                "key": "alt+shift+,",
-                "command": "mog.cursorTop",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "alt+shift+.",
-                "command": "mog.cursorBottom",
-                "when": "editorTextFocus && !suggestWidgetVisible"
-            },
-            {
-                "key": "alt+d",
-                "command": "deleteWordRight",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+alt+o",
-                "command": "editor.action.insertLineBefore",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+x u",
-                "command": "undo",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+/",
-                "command": "undo",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+w",
-                "command": "mog.editor.action.clipboardCutAction",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "alt+w",
-                "command": "mog.editor.action.clipboardCopyAction",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+y",
-                "command": "editor.action.clipboardPasteAction",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+shift+d",
-                "command": "mog.editor.action.duplicateAction",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+shift+c",
-                "command": "mog.editor.action.duplicateAndCommentLine",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+j",
-                "command": "editor.action.triggerSuggest",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+k",
-                "command": "mog.editor.action.killLineAction",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+9",
-                "command": "mog.editor.action.toggleLetterCase",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "alt+j",
-                "command": "mog.editor.action.joinLines",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "alt+-",
-                "command": "mog.editor.action.commentLine",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+shift+/",
-                "command": "mog.editor.action.commentLine",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "alt+g g",
-                "command": "workbench.action.gotoLine"
-            },
-            {
-                "key": "ctrl+s",
-                "command": "actions.find",
-                "when": "!findWidgetVisible"
-            },
-            {
-                "key": "ctrl+s",
-                "command": "editor.action.nextMatchFindAction",
-                "when": "findWidgetVisible"
-            },
-            {
-                "key": "ctrl+r",
-                "command": "actions.find",
-                "when": "!findWidgetVisible"
-            },
-            {
-                "key": "ctrl+r",
-                "command": "editor.action.previousMatchFindAction",
-                "when": "findWidgetVisible"
-            },
-            {
-                "key": "ctrl+g",
-                "command": "closeReferenceSearchEditor",
-                "when": "searchViewletVisible"
-            },
-            {
-                "key": "ctrl+g",
-                "command": "hideSuggestWidget",
-                "when": "editorTextFocus && suggestWidgetVisible"
-            },
-            {
-                "key": "ctrl+g",
-                "command": "closeFindWidget",
-                "when": "findWidgetVisible"
-            },
-            {
-                "key": "ctrl+g",
-                "command": "mog.editor.action.exitMarkMode",
-                "when": "editorTextFocus && !suggestWidgetVisible && !findWidgetVisible"
-            },
-            {
-                "key": "ctrl+x k",
-                "command": "workbench.action.closeActiveEditor",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "cmd+w",
-                "command": "workbench.action.closeActiveEditor",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+x b",
-                "command": "workbench.action.openPreviousEditor"
-            },
-            {
-                "key": "ctrl+x ctrl+s",
-                "command": "workbench.action.files.save"
-            },
-            {
-                "key": "ctrl+x s",
-                "command": "workbench.action.files.saveAll"
-            },
-            {
-                "key": "ctrl+x ctrl+c",
-                "command": "workbench.action.closeWindow"
-            },
-            {
-                "key": "ctrl+x 3",
-                "command": "workbench.action.splitEditor"
-            },
-            {
-                "key": "ctrl+x ctrl+f",
-                "command": "workbench.action.files.openFileFolder"
-            },
-            {
-                "key": "ctrl+x o",
-                "command": "workbench.action.navigateEditorGroups",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+x p",
-                "command": "workbench.action.previousEditor",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+pageup",
-                "command": "workbench.action.previousEditor",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+x n",
-                "command": "workbench.action.nextEditor",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+pagedown",
-                "command": "workbench.action.nextEditor",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+l",
-                "command": "mog.editor.action.format",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "alt+0",
-                "command": "mog.ext.cmd_0"
-            },
-            {
-                "key": "alt+1",
-                "command": "mog.ext.cmd_1"
-            },
-            {
-                "key": "alt+2",
-                "command": "mog.ext.cmd_2"
-            },
-            {
-                "key": "alt+3",
-                "command": "mog.ext.cmd_3"
-            },
-            {
-                "key": "alt+4",
-                "command": "mog.ext.cmd_4"
-            },
-            {
-                "key": "alt+5",
-                "command": "mog.ext.cmd_5"
-            },
-            {
-                "key": "alt+6",
-                "command": "mog.ext.cmd_6"
-            },
-            {
-                "key": "alt+7",
-                "command": "mog.ext.cmd_7"
-            },
-            {
-                "key": "alt+8",
-                "command": "mog.ext.cmd_8"
-            },
-            {
-                "key": "alt+9",
-                "command": "mog.ext.cmd_9"
-            },
-            {
-                "key": "alt+enter",
-                "command": "mog.ext.cmd_enter"
-            }
-        ]
-    },
-    "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "dependencies": {
-        "copy-paste": "1.3.0"
-    },
-    "devDependencies": {
-        "typescript": "4.1.3",
-        "typings": "1.4.0",
-        "vscode": "^1.1.37",
-        "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32"
-    }
+  "name": "mog-vscode",
+  "displayName": "mog-vscode",
+  "description": "",
+  "version": "0.1.0",
+  "publisher": "mogproject",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mogproject/mog-vscode"
+  },
+  "engines": {
+    "vscode": "^1.34.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "keybindings": [
+      {
+        "key": "ctrl+space",
+        "command": "mog.editor.action.enterMarkMode",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "escape",
+        "command": "mog.editor.action.exitMarkMode",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+x h",
+        "command": "editor.action.selectAll",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+x r",
+        "command": "mog.editor.action.selectRectangle",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "up",
+        "command": "mog.cursorUp",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "mog.cursorUp",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+up",
+        "command": "mog.cursorUpSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "down",
+        "command": "mog.cursorDown",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "mog.cursorDown",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+down",
+        "command": "mog.cursorDownSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "left",
+        "command": "mog.cursorLeft",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "mog.cursorLeft",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+left",
+        "command": "mog.cursorLeftSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "right",
+        "command": "mog.cursorRight",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "mog.cursorRight",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+right",
+        "command": "mog.cursorRightSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "home",
+        "command": "mog.cursorHome",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+a",
+        "command": "mog.cursorHome",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "cmd+left",
+        "command": "mog.cursorHome",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+home",
+        "command": "mog.cursorHomeSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "cmd+shift+left",
+        "command": "mog.cursorHomeSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "end",
+        "command": "mog.cursorEnd",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+e",
+        "command": "mog.cursorEnd",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "cmd+right",
+        "command": "mog.cursorEnd",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+end",
+        "command": "mog.cursorEndSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "cmd+shift+right",
+        "command": "mog.cursorEndSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "Alt+b",
+        "command": "mog.cursorWordLeft",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "Alt+f",
+        "command": "mog.cursorWordRight",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "pagedown",
+        "command": "mog.cursorPageDown",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "mog.cursorPageDown",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+pagedown",
+        "command": "mog.cursorPageDownSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "selectNextPageSuggestion",
+        "when": "editorTextFocus && suggestWidgetVisible"
+      },
+      {
+        "key": "pageup",
+        "command": "mog.cursorPageUp",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "alt+v",
+        "command": "mog.cursorPageUp",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "shift+pageup",
+        "command": "mog.cursorPageUpSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "alt+v",
+        "command": "selectPrevPageSuggestion",
+        "when": "editorTextFocus && suggestWidgetVisible"
+      },
+      {
+        "key": "alt+shift+,",
+        "command": "mog.cursorTop",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "alt+shift+.",
+        "command": "mog.cursorBottom",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "alt+d",
+        "command": "deleteWordRight",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+alt+o",
+        "command": "editor.action.insertLineBefore",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+x u",
+        "command": "undo",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+/",
+        "command": "undo",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+w",
+        "command": "mog.editor.action.clipboardCutAction",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+w",
+        "command": "mog.editor.action.clipboardCopyAction",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+y",
+        "command": "editor.action.clipboardPasteAction",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+shift+d",
+        "command": "mog.editor.action.duplicateAction",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+shift+c",
+        "command": "mog.editor.action.duplicateAndCommentLine",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+j",
+        "command": "editor.action.triggerSuggest",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+k",
+        "command": "mog.editor.action.killLineAction",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+9",
+        "command": "mog.editor.action.toggleLetterCase",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+j",
+        "command": "mog.editor.action.joinLines",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+-",
+        "command": "mog.editor.action.commentLine",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+shift+/",
+        "command": "mog.editor.action.commentLine",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+g g",
+        "command": "workbench.action.gotoLine"
+      },
+      {
+        "key": "ctrl+s",
+        "command": "actions.find",
+        "when": "!findWidgetVisible"
+      },
+      {
+        "key": "ctrl+s",
+        "command": "editor.action.nextMatchFindAction",
+        "when": "findWidgetVisible"
+      },
+      {
+        "key": "ctrl+r",
+        "command": "actions.find",
+        "when": "!findWidgetVisible"
+      },
+      {
+        "key": "ctrl+r",
+        "command": "editor.action.previousMatchFindAction",
+        "when": "findWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeReferenceSearchEditor",
+        "when": "searchViewletVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "hideSuggestWidget",
+        "when": "editorTextFocus && suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeFindWidget",
+        "when": "findWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "mog.editor.action.exitMarkMode",
+        "when": "editorTextFocus && !suggestWidgetVisible && !findWidgetVisible"
+      },
+      {
+        "key": "ctrl+x k",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "cmd+w",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+x b",
+        "command": "workbench.action.openPreviousEditor"
+      },
+      {
+        "key": "ctrl+x ctrl+s",
+        "command": "workbench.action.files.save"
+      },
+      {
+        "key": "ctrl+x s",
+        "command": "workbench.action.files.saveAll"
+      },
+      {
+        "key": "ctrl+x ctrl+c",
+        "command": "workbench.action.closeWindow"
+      },
+      {
+        "key": "ctrl+x 3",
+        "command": "workbench.action.splitEditor"
+      },
+      {
+        "key": "ctrl+x ctrl+f",
+        "command": "workbench.action.files.openFileFolder"
+      },
+      {
+        "key": "ctrl+x o",
+        "command": "workbench.action.navigateEditorGroups",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+x p",
+        "command": "workbench.action.previousEditor",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+pageup",
+        "command": "workbench.action.previousEditor",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+x n",
+        "command": "workbench.action.nextEditor",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+pagedown",
+        "command": "workbench.action.nextEditor",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+l",
+        "command": "mog.editor.action.format",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+0",
+        "command": "mog.ext.cmd_0"
+      },
+      {
+        "key": "alt+1",
+        "command": "mog.ext.cmd_1"
+      },
+      {
+        "key": "alt+2",
+        "command": "mog.ext.cmd_2"
+      },
+      {
+        "key": "alt+3",
+        "command": "mog.ext.cmd_3"
+      },
+      {
+        "key": "alt+4",
+        "command": "mog.ext.cmd_4"
+      },
+      {
+        "key": "alt+5",
+        "command": "mog.ext.cmd_5"
+      },
+      {
+        "key": "alt+6",
+        "command": "mog.ext.cmd_6"
+      },
+      {
+        "key": "alt+7",
+        "command": "mog.ext.cmd_7"
+      },
+      {
+        "key": "alt+8",
+        "command": "mog.ext.cmd_8"
+      },
+      {
+        "key": "alt+9",
+        "command": "mog.ext.cmd_9"
+      },
+      {
+        "key": "alt+enter",
+        "command": "mog.ext.cmd_enter"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint . --ext .ts,.tsx",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/vscode": "^1.34.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "eslint": "^8.19.0",
+    "typescript": "^4.7.2"
+  }
 }
