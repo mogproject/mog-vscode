@@ -2,7 +2,6 @@
 
 import * as vscode from "vscode";
 
-import { getCurrentPos, removeSelection, hasSelectedText } from "../util/selectionUtil";
 import Position = vscode.Position;
 import Selection = vscode.Selection;
 import TextEditor = vscode.TextEditor;

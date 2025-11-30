@@ -2,13 +2,13 @@
 
 import * as vscode from "vscode";
 
-import { removeSelection, hasSelectedText } from "./util/selectionUtil";
+import { removeSelection, hasSelectedText } from "./util/selection-util";
 
 import TextEditor = vscode.TextEditor;
 import executeCommand = vscode.commands.executeCommand;
 
 class EditorMarkController {
-  constructor(private textEditor: TextEditor, private isMarked: boolean = false, private eventCount: number = 0) {}
+  constructor(private textEditor: TextEditor, private isMarked: boolean = false, private eventCount: number = 0) { }
 
   public reset(): void {
     if (this.isMarked) {
@@ -47,7 +47,7 @@ class EditorMarkController {
 export class GlobalMarkController {
   private editorMarkControllers: Map<TextEditor, EditorMarkController> = new Map();
 
-  constructor() {}
+  constructor() { }
 
   private getMarkController(t: TextEditor): EditorMarkController {
     const ret = this.editorMarkControllers.get(t);

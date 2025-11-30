@@ -2,7 +2,7 @@
 
 import * as vscode from "vscode";
 
-import { hasSelectedText } from "../util/selectionUtil";
+import { hasSelectedText } from "../util/selection-util";
 
 import TextEditor = vscode.TextEditor;
 import executeCommand = vscode.commands.executeCommand;

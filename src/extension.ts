@@ -1,16 +1,10 @@
-"use strict";
+import * as vscode from 'vscode';
 
-import * as vscode from "vscode";
-
-import { removeSelection, hasSelectedText } from "./util/selectionUtil";
-import { GlobalMarkController } from "./markController";
-import { joinLines } from "./command/join";
-import { toggleLetterCase } from "./command/letterCase";
-import { selectRectangle } from "./command/selection";
-import { commentLine } from "./command/comment";
+import { GlobalMarkController } from './GlobalMarkController';
 import { clipboardCopyAction, duplicateAction, killLineAction, duplicateAndCommentLine } from "./command/copy";
-import { ExternalCommand } from "./command/externalCommand";
-import { formatAction } from "./command/format";
+import { commentLine } from './command/comment';
+import { formatAction } from './command/format';
+import { selectRectangle } from './command/select';
 
 import Window = vscode.window;
 import TextEditor = vscode.TextEditor;
@@ -37,7 +31,6 @@ export function activate(context: vscode.ExtensionContext) {
   type EditCmd = [string, { (t: TextEditor, e: TextEditorEdit): void }];
 
   const mc = new GlobalMarkController();
-  const ext = new ExternalCommand(vscode.workspace.getConfiguration());
 
   // Prepare non-edit command definitions
   let commands: Cmd[] = [
@@ -57,25 +50,10 @@ export function activate(context: vscode.ExtensionContext) {
     commands.push(["mog." + s + "Select", () => Window.activeTextEditor && mc.moveCursor(Window.activeTextEditor, s, true)]);
   });
 
-  // external commands
-  commands.push(["mog.ext.cmd_0", () => ext.execute("0")]);
-  commands.push(["mog.ext.cmd_1", () => ext.execute("1")]);
-  commands.push(["mog.ext.cmd_2", () => ext.execute("2")]);
-  commands.push(["mog.ext.cmd_3", () => ext.execute("3")]);
-  commands.push(["mog.ext.cmd_4", () => ext.execute("4")]);
-  commands.push(["mog.ext.cmd_5", () => ext.execute("5")]);
-  commands.push(["mog.ext.cmd_6", () => ext.execute("6")]);
-  commands.push(["mog.ext.cmd_7", () => ext.execute("7")]);
-  commands.push(["mog.ext.cmd_8", () => ext.execute("8")]);
-  commands.push(["mog.ext.cmd_9", () => ext.execute("9")]);
-  commands.push(["mog.ext.cmd_enter", () => ext.execute("enter")]);
-
   // Prepare edit command definitions
   const editCommands: EditCmd[] = [
     ["mog.editor.action.duplicateAction", duplicateAction],
     ["mog.editor.action.killLineAction", killLineAction],
-    ["mog.editor.action.toggleLetterCase", toggleLetterCase],
-    ["mog.editor.action.joinLines", joinLines],
   ];
 
   // Register commands
@@ -90,4 +68,5 @@ export function activate(context: vscode.ExtensionContext) {
   console.log("Activated extension: mog-vscode");
 }
 
-export function deactivate() {}
+// This method is called when your extension is deactivated
+export function deactivate() { }

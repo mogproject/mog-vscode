@@ -1,49 +1,65 @@
 {
   "name": "mog-vscode",
   "displayName": "mog-vscode",
-  "description": "",
-  "version": "0.1.0",
-  "publisher": "mogproject",
-  "license": "Apache-2.0",
+  "description": "Emacs-like key bindings and utility functions",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mogproject/mog-vscode"
+    "url": "https://github.com/mogproject/mog-vscode.git"
   },
   "engines": {
-    "vscode": "^1.34.0"
+    "vscode": "^1.106.1"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onCommand:mog.editor.action.enterMarkMode",
+    "onCommand:mog.editor.action.exitMarkMode",
+    "onCommand:mog.editor.action.clipboardCopyAction",
+    "onCommand:mog.editor.action.clipboardCutAction",
+    "onCommand:mog.editor.action.commentLine",
+    "onCommand:mog.editor.action.duplicateAndCommentLine",
+    "onCommand:mog.editor.action.selectRectangle",
+    "onCommand:mog.editor.action.format",
+    "onCommand:mog.editor.action.duplicateAction",
+    "onCommand:mog.editor.action.killLineAction",
+    "onCommand:mog.cursorUp",
+    "onCommand:mog.cursorDown",
+    "onCommand:mog.cursorLeft",
+    "onCommand:mog.cursorRight",
+    "onCommand:mog.cursorHome",
+    "onCommand:mog.cursorEnd",
+    "onCommand:mog.cursorWordLeft",
+    "onCommand:mog.cursorWordRight",
+    "onCommand:mog.cursorPageDown",
+    "onCommand:mog.cursorPageUp",
+    "onCommand:mog.cursorTop",
+    "onCommand:mog.cursorBottom",
+    "onCommand:mog.cursorUpSelect",
+    "onCommand:mog.cursorDownSelect",
+    "onCommand:mog.cursorLeftSelect",
+    "onCommand:mog.cursorRightSelect",
+    "onCommand:mog.cursorHomeSelect",
+    "onCommand:mog.cursorEndSelect",
+    "onCommand:mog.cursorWordLeftSelect",
+    "onCommand:mog.cursorWordRightSelect",
+    "onCommand:mog.cursorPageDownSelect",
+    "onCommand:mog.cursorPageUpSelect",
+    "onCommand:mog.cursorTopSelect",
+    "onCommand:mog.cursorBottomSelect"
   ],
-  "main": "./out/src/extension",
+  "main": "./out/extension.js",
   "contributes": {
     "keybindings": [
       {
-        "key": "ctrl+space",
-        "command": "mog.editor.action.enterMarkMode",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "escape",
-        "command": "mog.editor.action.exitMarkMode",
+        "key": "up",
+        "command": "mog.cursorUp",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
-        "key": "ctrl+x h",
-        "command": "editor.action.selectAll",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+x r",
-        "command": "mog.editor.action.selectRectangle",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "up",
-        "command": "mog.cursorUp",
+        "key": "shift-up",
+        "command": "mog.cursorUpSelect",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
@@ -52,17 +68,92 @@
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
-        "key": "shift+up",
-        "command": "mog.cursorUpSelect",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "key": "ctrl+p",
+        "command": "editor.action.scrollUpHover",
+        "when": "editorHoverFocused"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "editor.action.selectPreviousStickyScrollLine",
+        "when": "stickyScrollFocused"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "focusPreviousRenameSuggestion",
+        "when": "renameInputVisible"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "history.showPrevious",
+        "when": "historyNavigationBackwardsEnabled && historyNavigationWidgetFocus && !isComposing && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "iconSelectBox.focusUp",
+        "when": "iconSelectBoxFocus"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "list.focusUp",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "notifications.focusPreviousToast",
+        "when": "notificationFocus && notificationToastsVisible"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "quickInput.previous",
+        "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "scm.viewPreviousCommit",
+        "when": "scmInputIsInFirstPosition && scmRepository && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "selectPrevCodeAction",
+        "when": "codeActionMenuVisible"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "selectPrevSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "showPrevParameterHint",
+        "when": "editorFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "workbench.action.interactivePlayground.arrowUp",
+        "when": "interactivePlaygroundFocus && !editorTextFocus"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "workbench.action.terminal.hideSuggestWidgetAndNavigateHistory",
+        "when": "config.terminal.integrated.suggest.upArrowNavigatesHistory && terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible && !simpleSuggestWidgetHasNavigated || config.terminal.integrated.suggest.upArrowNavigatesHistory && terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible && !simpleSuggestWidgetHasNavigated"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "workbench.action.terminal.selectPrevSuggestion",
+        "when": "simpleSuggestWidgetHasNavigated && terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || simpleSuggestWidgetHasNavigated && terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible || terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible && !config.terminal.integrated.suggest.upArrowNavigatesHistory || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible && !config.terminal.integrated.suggest.upArrowNavigatesHistory"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "workbench.banner.focusPreviousAction",
+        "when": "bannerFocused"
+      },
+      {
+        "key": "ctrl+p",
+        "command": "workbench.statusBar.focusPrevious",
+        "when": "statusBarFocused"
       },
       {
         "key": "down",
-        "command": "mog.cursorDown",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "ctrl+n",
         "command": "mog.cursorDown",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
@@ -72,102 +163,243 @@
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
-        "key": "left",
-        "command": "mog.cursorLeft",
+        "key": "ctrl+n",
+        "command": "mog.cursorDown",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
-        "key": "ctrl+b",
+        "key": "ctrl+n",
+        "command": "editor.action.scrollDownHover",
+        "when": "editorHoverFocused"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "breadcrumbs.selectFocused",
+        "when": "breadcrumbsActive && breadcrumbsVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "editor.action.selectNextStickyScrollLine",
+        "when": "stickyScrollFocused"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "focusNextRenameSuggestion",
+        "when": "renameInputVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "history.showNext",
+        "when": "historyNavigationForwardsEnabled && historyNavigationWidgetFocus && !isComposing && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "iconSelectBox.focusDown",
+        "when": "iconSelectBoxFocus"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "interactive.history.next",
+        "when": "isCompositeNotebook && !notebookEditorFocused && !suggestWidgetVisible && interactiveInputCursorAtBoundary != 'none' && interactiveInputCursorAtBoundary != 'top'"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "list.focusDown",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "notifications.focusNextToast",
+        "when": "notificationFocus && notificationToastsVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "quickInput.next",
+        "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "scm.viewNextCommit",
+        "when": "scmInputIsInLastPosition && scmRepository && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "selectNextCodeAction",
+        "when": "codeActionMenuVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "selectNextSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "settings.action.focusSettingsFile",
+        "when": "inSettingsSearch && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "settings.action.focusSettingsFromSearch",
+        "when": "inSettingsSearch && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "showNextParameterHint",
+        "when": "editorFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "workbench.action.interactivePlayground.arrowDown",
+        "when": "interactivePlaygroundFocus && !editorTextFocus"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "workbench.action.terminal.selectNextSuggestion",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "workbench.banner.focusNextAction",
+        "when": "bannerFocused"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "workbench.statusBar.focusNext",
+        "when": "statusBarFocused"
+      },
+      {
+        "key": "ctrl+n",
+        "command": "-workbench.action.files.newUntitledFile"
+      },
+      {
+        "key": "left",
         "command": "mog.cursorLeft",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
       },
       {
         "key": "shift+left",
         "command": "mog.cursorLeftSelect",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "mog.cursorLeft",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "editor.action.scrollLeftHover",
+        "when": "editorHoverFocused"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "breadcrumbs.focusPrevious",
+        "when": "breadcrumbsActive && breadcrumbsVisible"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "iconSelectBox.focusPrevious",
+        "when": "iconSelectBoxFocus && iconSelectBoxInputEmpty || iconSelectBoxFocus && !iconSelectBoxInputFocus"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "workbench.banner.focusPreviousAction",
+        "when": "bannerFocused"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "workbench.statusBar.focusPrevious",
+        "when": "statusBarFocused"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "-workbench.action.toggleSidebarVisibility"
       },
       {
         "key": "right",
         "command": "mog.cursorRight",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "ctrl+f",
-        "command": "mog.cursorRight",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
       },
       {
         "key": "shift+right",
         "command": "mog.cursorRightSelect",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "mog.cursorRight",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "editor.action.scrollRightHover",
+        "when": "editorHoverFocused"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "breadcrumbs.focusNext",
+        "when": "breadcrumbsActive && breadcrumbsVisible"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "iconSelectBox.focusNext",
+        "when": "iconSelectBoxFocus && iconSelectBoxInputEmpty || iconSelectBoxFocus && !iconSelectBoxInputFocus"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "workbench.banner.focusNextAction",
+        "when": "bannerFocused"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "workbench.statusBar.focusNext",
+        "when": "statusBarFocused"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "-actions.find"
       },
       {
         "key": "home",
-        "command": "mog.cursorHome",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "ctrl+a",
-        "command": "mog.cursorHome",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "cmd+left",
-        "command": "mog.cursorHome",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "command": "mog.cursorEnd",
+        "when": "editorTextFocus"
       },
       {
         "key": "shift+home",
         "command": "mog.cursorHomeSelect",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
       },
       {
-        "key": "cmd+shift+left",
-        "command": "mog.cursorHomeSelect",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "end",
-        "command": "mog.cursorEnd",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "ctrl+e",
-        "command": "mog.cursorEnd",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "cmd+right",
-        "command": "mog.cursorEnd",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "key": "ctrl+a",
+        "command": "mog.cursorHome",
+        "when": "editorTextFocus"
       },
       {
         "key": "shift+end",
         "command": "mog.cursorEndSelect",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
       },
       {
-        "key": "cmd+shift+right",
-        "command": "mog.cursorEndSelect",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "key": "ctrl+e",
+        "command": "mog.cursorEnd",
+        "when": "editorTextFocus"
       },
       {
-        "key": "Alt+b",
+        "key": "ctrl+e",
+        "command": "-workbench.action.quickOpen"
+      },
+      {
+        "key": "alt-b",
         "command": "mog.cursorWordLeft",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
       },
       {
-        "key": "Alt+f",
+        "key": "alt-f",
         "command": "mog.cursorWordRight",
-        "when": "editorTextFocus && !suggestWidgetVisible"
+        "when": "editorTextFocus"
       },
       {
         "key": "pagedown",
-        "command": "mog.cursorPageDown",
-        "when": "editorTextFocus && !suggestWidgetVisible"
-      },
-      {
-        "key": "ctrl+v",
         "command": "mog.cursorPageDown",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
@@ -178,16 +410,46 @@
       },
       {
         "key": "ctrl+v",
-        "command": "selectNextPageSuggestion",
-        "when": "editorTextFocus && suggestWidgetVisible"
-      },
-      {
-        "key": "pageup",
-        "command": "mog.cursorPageUp",
+        "command": "mog.cursorPageDown",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
-        "key": "alt+v",
+        "key": "ctrl+v",
+        "command": "editor.action.pageDownHover",
+        "when": "editorHoverFocused"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "list.focusPageDown",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "notifications.focusLastToast",
+        "when": "notificationFocus && notificationToastsVisible"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "quickInput.pageNext",
+        "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "selectNextPageSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "workbench.action.interactivePlayground.pageDown",
+        "when": "interactivePlaygroundFocus && !editorTextFocus"
+      },
+      {
+        "key": "ctrl+v",
+        "command": "workbench.action.terminal.selectNextPageSuggestion",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible"
+      },
+      {
+        "key": "pageup",
         "command": "mog.cursorPageUp",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
@@ -198,12 +460,87 @@
       },
       {
         "key": "alt+v",
+        "command": "mog.cursorPageUp",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "alt+v",
+        "command": "editor.action.pageUpHover",
+        "when": "editorHoverFocused"
+      },
+      {
+        "key": "alt+v",
+        "command": "list.focusPageUp",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+      },
+      {
+        "key": "alt+v",
+        "command": "notifications.focusFirstToast",
+        "when": "notificationFocus && notificationToastsVisible"
+      },
+      {
+        "key": "alt+v",
+        "command": "quickInput.pagePrevious",
+        "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+      },
+      {
+        "key": "alt+v",
         "command": "selectPrevPageSuggestion",
-        "when": "editorTextFocus && suggestWidgetVisible"
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+      },
+      {
+        "key": "alt+v",
+        "command": "workbench.action.interactivePlayground.pageUp",
+        "when": "interactivePlaygroundFocus && !editorTextFocus"
+      },
+      {
+        "key": "alt+v",
+        "command": "workbench.action.terminal.selectPrevPageSuggestion",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+home",
+        "command": "mog.cursorTop",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+shift+home",
+        "command": "mog.cursorTopSelect",
+        "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
         "key": "alt+shift+,",
         "command": "mog.cursorTop",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "alt+shift+,",
+        "command": "workbench.action.terminal.scrollToTopAccessibleView",
+        "when": "accessibleViewIsShown && terminalHasBeenCreated && accessibleViewCurrentProviderId == 'terminal' || accessibleViewIsShown && terminalProcessSupported && accessibleViewCurrentProviderId == 'terminal'"
+      },
+      {
+        "key": "alt+shift+,",
+        "command": "workbench.action.terminal.scrollToTop",
+        "when": "terminalFocusInAny && terminalHasBeenCreated && !terminalAltBufferActive || terminalFocusInAny && terminalProcessSupported && !terminalAltBufferActive"
+      },
+      {
+        "key": "alt+shift+,",
+        "command": "interactive.scrollToTop",
+        "when": "activeEditor == 'workbench.editor.interactive'"
+      },
+      {
+        "key": "alt+shift+,",
+        "command": "quickInput.first",
+        "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+      },
+      {
+        "key": "ctrl+end",
+        "command": "mog.cursorBottom",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+shift+end",
+        "command": "mog.cursorBottom",
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
@@ -212,19 +549,418 @@
         "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
+        "key": "alt+shift+.",
+        "command": "workbench.action.terminal.scrollToBottomAccessibleView",
+        "when": "accessibleViewIsShown && terminalHasBeenCreated && accessibleViewCurrentProviderId == 'terminal' || accessibleViewIsShown && terminalProcessSupported && accessibleViewCurrentProviderId == 'terminal'"
+      },
+      {
+        "key": "alt+shift+.",
+        "command": "workbench.action.terminal.scrollToBottom",
+        "when": "terminalFocusInAny && terminalHasBeenCreated && !terminalAltBufferActive || terminalFocusInAny && terminalProcessSupported && !terminalAltBufferActive"
+      },
+      {
+        "key": "alt+shift+.",
+        "command": "interactive.scrollToBottom",
+        "when": "activeEditor == 'workbench.editor.interactive'"
+      },
+      {
+        "key": "alt+shift+.",
+        "command": "quickInput.last",
+        "when": "inQuickInput && quickInputType == 'quickPick' || inQuickInput && quickInputType == 'quickTree'"
+      },
+      {
+        "key": "ctrl+d",
+        "command": "deleteRight",
+        "when": "textInputFocus"
+      },
+      {
         "key": "alt+d",
-        "command": "deleteWordRight",
-        "when": "editorTextFocus"
+        "command": "deleteWordEndRight",
+        "when": "textInputFocus"
       },
       {
-        "key": "ctrl+alt+o",
-        "command": "editor.action.insertLineBefore",
-        "when": "editorTextFocus"
+        "key": "ctrl+h",
+        "command": "deleteLeft",
+        "when": "textInputFocus"
       },
       {
-        "key": "ctrl+x u",
-        "command": "undo",
-        "when": "editorTextFocus"
+        "key": "ctrl+i",
+        "command": "tab",
+        "when": "textInputFocus"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "editor.action.inlineSuggest.commit",
+        "when": "inlineEditIsVisible && tabShouldAcceptInlineEdit && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible || inlineEditIsVisible && inlineSuggestionVisible && tabShouldAcceptInlineEdit && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible || inlineSuggestionHasIndentationLessThanTabSize && inlineSuggestionVisible && !editor.hasSelection && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible || inlineEditIsVisible && inlineSuggestionHasIndentationLessThanTabSize && inlineSuggestionVisible && !editor.hasSelection && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "editor.action.inlineSuggest.commit",
+        "when": "inInlineEditsPreviewEditor"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "editor.emmet.action.expandAbbreviation",
+        "when": "config.emmet.triggerExpansionOnTab && editorTextFocus && !editorReadonly && !editorTabMovesFocus"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "editor.action.inlineSuggest.jump",
+        "when": "inlineEditIsVisible && tabShouldJumpToInlineEdit && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "acceptSelectedSuggestion",
+        "when": "suggestWidgetHasFocusedSuggestion && suggestWidgetVisible && textInputFocus"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "insertBestCompletion",
+        "when": "atEndOfWord && textInputFocus && !hasOtherSuggestions && !inSnippetMode && !suggestWidgetVisible && config.editor.tabCompletion == 'on'"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "insertNextSuggestion",
+        "when": "hasOtherSuggestions && textInputFocus && !inSnippetMode && !suggestWidgetVisible && config.editor.tabCompletion == 'on'"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "insertSnippet",
+        "when": "editorTextFocus && hasSnippetCompletions && !editorTabMovesFocus && !inSnippetMode"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "jumpToNextSnippetPlaceholder",
+        "when": "hasNextTabstop && inSnippetMode && textInputFocus"
+      },
+      {
+        "key": "ctrl+i",
+        "command": "workbench.action.terminal.acceptSelectedSuggestion",
+        "when": "simpleSuggestWidgetHasFocusedSuggestion && terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || simpleSuggestWidgetHasFocusedSuggestion && terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.action.inlineSuggest.hide",
+        "when": "inInlineEditsPreviewEditor"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.action.inlineSuggest.hide",
+        "when": "inlineEditIsVisible || inlineSuggestionVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.action.hideColorPicker",
+        "when": "standaloneColorPickerVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "inlineChat2.close",
+        "when": "chatInputHasFocus && inlineChatHasEditsAgent && inlineChatVisible && activeEditor != 'workbench.editor.notebook' || chatInputHasFocus && inlineChatHasNotebookAgent && inlineChatVisible && activeEditor == 'workbench.editor.notebook' || editorFocus && inlineChatHasEditsAgent && inlineChatVisible && !chatEdits.hasEditorModifications && activeEditor != 'workbench.editor.notebook' || editorFocus && inlineChatHasNotebookAgent && inlineChatVisible && !chatEdits.hasEditorModifications && activeEditor == 'workbench.editor.notebook'"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.terminal.chat.close",
+        "when": "chatIsEnabled && terminalChatFocus && terminalChatVisible || chatIsEnabled && terminalChatVisible && terminalFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "notifications.hideList",
+        "when": "notificationCenterVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "search.action.focusQueryEditorWidget",
+        "when": "inSearchEditor"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "search.action.cancel",
+        "when": "listFocus && searchViewletVisible && !inputFocus && !treestickyScrollFocused && searchState != '0'"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "inlayHints.stopReadingLineWithHint",
+        "when": "isReadingLineWithInlayHints"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.terminal.clearSelection",
+        "when": "terminalFocusInAny && terminalHasBeenCreated && terminalTextSelected && !terminalFindVisible || terminalFocusInAny && terminalProcessSupported && terminalTextSelected && !terminalFindVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.terminal.hideFind",
+        "when": "terminalFindVisible && terminalFocusInAny && terminalHasBeenCreated || terminalFindVisible && terminalFocusInAny && terminalProcessSupported"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.terminal.stopVoice",
+        "when": "terminalDictationInProgress"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.editorDictation.stop",
+        "when": "editorDictation.inProgress"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "welcome.goBack",
+        "when": "inWelcome && activeEditor == 'gettingStartedPage'"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "breadcrumbs.selectEditor",
+        "when": "breadcrumbsActive && breadcrumbsVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "cancelLinkedEditingInput",
+        "when": "LinkedEditingInputVisible && editorTextFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "cancelRenameInput",
+        "when": "editorFocus && renameInputVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "cancelSelection",
+        "when": "editorHasSelection && textInputFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "chat.models.action.clearSearchResults",
+        "when": "inModelsEditor && inModelsSearch"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeBreakpointWidget",
+        "when": "breakpointWidgetVisible && textInputFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeFindWidget",
+        "when": "editorFocus && findWidgetVisible && !isComposing"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeMarkersNavigation",
+        "when": "editorFocus && markersNavigationVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeParameterHints",
+        "when": "editorFocus && parameterHintsVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeQuickDiff",
+        "when": "dirtyDiffVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeReferenceSearch",
+        "when": "inReferenceSearchEditor && !config.editor.stablePeek"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeReferenceSearch",
+        "when": "editorTextFocus && referenceSearchVisible && !config.editor.stablePeek || referenceSearchVisible && !config.editor.stablePeek && !inputFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "closeReplaceInFilesWidget",
+        "when": "replaceInputBoxFocus && searchViewletVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "commentsClearFilterText",
+        "when": "commentsFilterFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "diffEditor.exitCompareMove",
+        "when": "comparingMovedCode"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.action.selectEditor",
+        "when": "stickyScrollFocused"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.action.webvieweditor.hideFind",
+        "when": "webviewFindWidgetVisible && !editorFocus && activeEditor == 'WebviewEditor'"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.cancelOperation",
+        "when": "cancellableOperation"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.closeCallHierarchy",
+        "when": "callHierarchyVisible && !config.editor.stablePeek"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.closeTestPeek",
+        "when": "testing.isInPeek && !config.editor.stablePeek || testing.isPeekVisible && !config.editor.stablePeek"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.closeTypeHierarchy",
+        "when": "typeHierarchyVisible && !config.editor.stablePeek"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.gotoNextSymbolFromResult.cancel",
+        "when": "hasSymbols"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.hideDropWidget",
+        "when": "dropWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "editor.hidePasteWidget",
+        "when": "pasteWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "filesExplorer.cancelCut",
+        "when": "explorerResourceCut && filesExplorerFocus && foldersViewVisible && !inputFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "hideCodeActionWidget",
+        "when": "codeActionMenuVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "hideSuggestWidget",
+        "when": "suggestWidgetVisible && textInputFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "inlineChat.close",
+        "when": "inlineChatHasNotebookInline && inlineChatVisible && activeEditor == 'workbench.editor.notebook' || inlineChatHasProvider && inlineChatVisible && activeEditor != 'workbench.editor.notebook'"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "inlineChat.discardHunkChange",
+        "when": "inlineChatHasNotebookInline && inlineChatVisible && activeEditor == 'workbench.editor.notebook' && inlineChatResponseType == 'messagesAndEdits' || inlineChatHasProvider && inlineChatVisible && inlineChatResponseType == 'messagesAndEdits' && activeEditor != 'workbench.editor.notebook'"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "inlineChat.hideHint",
+        "when": "inlineChatShowingHint"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "keybindings.editor.clearSearchResults",
+        "when": "inKeybindings && inKeybindingsSearch"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "keybindings.editor.rejectWhenExpression",
+        "when": "inKeybindings && whenFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "leaveEditorMessage",
+        "when": "messageVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "leaveSnippet",
+        "when": "inSnippetMode && textInputFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "list.clear",
+        "when": "listFocus && listHasSelectionOrFocus && !inputFocus && !treestickyScrollFocused"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "list.closeFind",
+        "when": "listFocus && treeFindOpen"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "notifications.hideToasts",
+        "when": "notificationToastsVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "notifications.hideToasts",
+        "when": "notificationFocus && notificationToastsVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "problems.action.clearFilterText",
+        "when": "problemsFilterFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "quickInput.hide",
+        "when": "inQuickInput"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "removeSecondaryCursors",
+        "when": "editorHasMultipleSelections && textInputFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "scm.clearInput",
+        "when": "scmRepository && !editorHasSelection && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.chat.stopReadChatItemAloud",
+        "when": "scopedChatSynthesisInProgress"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.closeQuickOpen",
+        "when": "inQuickOpen"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.hideComment",
+        "when": "commentEditorFocused || commentFocused"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.action.terminal.hideSuggestWidget",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.actions.workbench.panel.output.clearFilterText",
+        "when": "outputFilterFocus"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.banner.focusBanner",
+        "when": "bannerFocused"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.edit.chat.cancel",
+        "when": "chatSessionCurrentlyEditing && inChatInput && !editorHasMultipleSelections && !editorHasSelection && !editorHoverVisible || chatSessionCurrentlyEditingInput && inChatInput && !editorHasMultipleSelections && !editorHasSelection && !editorHoverVisible"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "workbench.statusBar.clearFocus",
+        "when": "statusBarFocused"
+      },
+      {
+        "key": "ctrl+g",
+        "command": "-workbench.action.gotoLine"
       },
       {
         "key": "ctrl+/",
@@ -232,63 +968,18 @@
         "when": "editorTextFocus"
       },
       {
-        "key": "ctrl+w",
-        "command": "mog.editor.action.clipboardCutAction",
+        "key": "ctrl+/",
+        "command": "-editor.action.commentLine",
+        "when": "editorTextFocus && !editorReadonly"
+      },
+      {
+        "key": "ctrl+\\",
+        "command": "redo",
         "when": "editorTextFocus"
       },
       {
-        "key": "alt+w",
-        "command": "mog.editor.action.clipboardCopyAction",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+y",
-        "command": "editor.action.clipboardPasteAction",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+shift+d",
-        "command": "mog.editor.action.duplicateAction",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+shift+c",
-        "command": "mog.editor.action.duplicateAndCommentLine",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+j",
-        "command": "editor.action.triggerSuggest",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+k",
-        "command": "mog.editor.action.killLineAction",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+9",
-        "command": "mog.editor.action.toggleLetterCase",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+j",
-        "command": "mog.editor.action.joinLines",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+-",
-        "command": "mog.editor.action.commentLine",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+shift+/",
-        "command": "mog.editor.action.commentLine",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+g g",
-        "command": "workbench.action.gotoLine"
+        "key": "ctrl+\\",
+        "command": "-workbench.action.splitEditor"
       },
       {
         "key": "ctrl+s",
@@ -311,82 +1002,147 @@
         "when": "findWidgetVisible"
       },
       {
-        "key": "ctrl+g",
-        "command": "closeReferenceSearchEditor",
-        "when": "searchViewletVisible"
+        "key": "ctrl+m",
+        "command": "repl.action.acceptInput",
+        "when": "inDebugRepl && textInputFocus"
       },
       {
-        "key": "ctrl+g",
-        "command": "hideSuggestWidget",
-        "when": "editorTextFocus && suggestWidgetVisible"
+        "key": "ctrl+m",
+        "command": "acceptRenameInput",
+        "when": "editorFocus && renameInputVisible && !isComposing"
       },
       {
-        "key": "ctrl+g",
-        "command": "closeFindWidget",
-        "when": "findWidgetVisible"
+        "key": "ctrl+m",
+        "command": "acceptSelectedCodeAction",
+        "when": "codeActionMenuVisible"
       },
       {
-        "key": "ctrl+g",
-        "command": "mog.editor.action.exitMarkMode",
-        "when": "editorTextFocus && !suggestWidgetVisible && !findWidgetVisible"
+        "key": "ctrl+m",
+        "command": "acceptSelectedSuggestion",
+        "when": "acceptSuggestionOnEnter && suggestWidgetHasFocusedSuggestion && suggestWidgetVisible && suggestionMakesTextEdit && textInputFocus"
       },
       {
-        "key": "ctrl+x k",
-        "command": "workbench.action.closeActiveEditor",
+        "key": "ctrl+m",
+        "command": "breadcrumbs.selectFocused",
+        "when": "breadcrumbsActive && breadcrumbsVisible"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "breakpointWidget.action.acceptInput",
+        "when": "breakpointWidgetVisible && inBreakpointWidget"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "editor.action.goToFocusedStickyScrollLine",
+        "when": "stickyScrollFocused"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "editor.action.replaceOne",
+        "when": "editorFocus && findWidgetVisible && replaceInputFocussed"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "explorer.openAndPassFocus",
+        "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsFolder && !inputFocus"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "iconSelectBox.selectFocused",
+        "when": "iconSelectBoxFocus"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "interactive.execute",
+        "when": "isCompositeNotebook && !config.interactiveWindow.executeWithShiftEnter && activeEditor == 'workbench.editor.interactive'"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "list.select",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "list.stickyScrollselect",
+        "when": "treestickyScrollFocused"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "quickInput.accept",
+        "when": "inQuickInput && !isComposing && quickInputType != 'quickWidget'"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "repl.execute",
+        "when": "isCompositeNotebook && !config.interactiveWindow.executeWithShiftEnter && !notebookCellListFocused && activeEditor == 'workbench.editor.repl'"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "search.action.openResult",
+        "when": "fileMatchOrMatchFocus && searchViewletVisible"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "workbench.action.chat.submit",
+        "when": "chatInputHasText && inChatInput && !chatSessionRequestInProgress && !withinEditSessionDiff"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "workbench.action.terminal.acceptSelectedSuggestion",
+        "when": "simpleSuggestWidgetHasFocusedSuggestion && simpleSuggestWidgetHasNavigated && terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible || simpleSuggestWidgetHasFocusedSuggestion && simpleSuggestWidgetHasNavigated && terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible || simpleSuggestWidgetHasFocusedSuggestion && terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible && !simpleSuggestWidgetFirstSuggestionFocused || simpleSuggestWidgetHasFocusedSuggestion && terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible && config.terminal.integrated.suggest.selectionMode != 'partial' || simpleSuggestWidgetHasFocusedSuggestion && terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible && !simpleSuggestWidgetFirstSuggestionFocused || simpleSuggestWidgetHasFocusedSuggestion && terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible && config.terminal.integrated.suggest.selectionMode != 'partial'"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "workbench.action.terminal.acceptSelectedSuggestionEnter",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalIsOpen && terminalSuggestWidgetVisible && config.terminal.integrated.suggest.runOnEnter != 'never' || terminalFocus && terminalIsOpen && terminalProcessSupported && terminalSuggestWidgetVisible && config.terminal.integrated.suggest.runOnEnter != 'never'"
+      },
+      {
+        "key": "ctrl+k",
+        "command": "mog.editor.action.killLineAction",
+        "when": "editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "key": "ctrl+w",
+        "command": "mog.editor.action.clipboardCutAction",
         "when": "editorTextFocus"
       },
       {
-        "key": "cmd+w",
-        "command": "workbench.action.closeActiveEditor",
+        "key": "alt+w",
+        "command": "mog.editor.action.clipboardCopyAction",
         "when": "editorTextFocus"
       },
       {
-        "key": "ctrl+x b",
-        "command": "workbench.action.openPreviousEditor"
-      },
-      {
-        "key": "ctrl+x ctrl+s",
-        "command": "workbench.action.files.save"
-      },
-      {
-        "key": "ctrl+x s",
-        "command": "workbench.action.files.saveAll"
-      },
-      {
-        "key": "ctrl+x ctrl+c",
-        "command": "workbench.action.closeWindow"
-      },
-      {
-        "key": "ctrl+x 3",
-        "command": "workbench.action.splitEditor"
-      },
-      {
-        "key": "ctrl+x ctrl+f",
-        "command": "workbench.action.files.openFileFolder"
-      },
-      {
-        "key": "ctrl+x o",
-        "command": "workbench.action.navigateEditorGroups",
+        "key": "ctrl+y",
+        "command": "editor.action.clipboardPasteAction",
         "when": "editorTextFocus"
       },
       {
-        "key": "ctrl+x p",
-        "command": "workbench.action.previousEditor",
+        "key": "ctrl+y",
+        "command": "-redo"
+      },
+      {
+        "key": "alt+/",
+        "command": "editor.action.commentLine",
         "when": "editorTextFocus"
       },
       {
-        "key": "ctrl+pageup",
-        "command": "workbench.action.previousEditor",
+        "key": "ctrl+shift+/",
+        "command": "mog.editor.action.commentLine",
         "when": "editorTextFocus"
       },
       {
-        "key": "ctrl+x n",
-        "command": "workbench.action.nextEditor",
+        "key": "ctrl+shift+d",
+        "command": "mog.editor.action.duplicateAction",
         "when": "editorTextFocus"
       },
       {
-        "key": "ctrl+pagedown",
-        "command": "workbench.action.nextEditor",
+        "key": "ctrl+shift+c",
+        "command": "mog.editor.action.duplicateAndCommentLine",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+j",
+        "command": "editor.action.triggerSuggest",
         "when": "editorTextFocus"
       },
       {
@@ -395,63 +1151,105 @@
         "when": "editorTextFocus"
       },
       {
-        "key": "alt+0",
-        "command": "mog.ext.cmd_0"
+        "key": "ctrl+alt+n",
+        "command": "editor.action.insertCursorBelow",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+1",
-        "command": "mog.ext.cmd_1"
+        "key": "ctrl+alt+p",
+        "command": "editor.action.insertCursorAbove",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+2",
-        "command": "mog.ext.cmd_2"
+        "key": "ctrl+space",
+        "command": "mog.editor.action.enterMarkMode",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+3",
-        "command": "mog.ext.cmd_3"
+        "key": "escape",
+        "command": "mog.editor.action.exitMarkMode",
+        "when": "editorTextFocus && !suggestWidgetVisible"
       },
       {
-        "key": "alt+4",
-        "command": "mog.ext.cmd_4"
+        "key": "ctrl+x h",
+        "command": "editor.action.selectAll",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+5",
-        "command": "mog.ext.cmd_5"
+        "key": "ctrl+x r",
+        "command": "mog.editor.action.selectRectangle",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+6",
-        "command": "mog.ext.cmd_6"
+        "key": "ctrl+x n",
+        "command": "workbench.action.nextEditor",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+7",
-        "command": "mog.ext.cmd_7"
+        "key": "ctrl+x p",
+        "command": "workbench.action.previousEditor",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+8",
-        "command": "mog.ext.cmd_8"
+        "key": "ctrl+x o",
+        "command": "workbench.action.focusNextGroup",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+9",
-        "command": "mog.ext.cmd_9"
+        "key": "ctrl+x k",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "editorTextFocus"
       },
       {
-        "key": "alt+enter",
-        "command": "mog.ext.cmd_enter"
+        "key": "ctrl+x ctrl+c",
+        "command": "workbench.action.closeOtherEditors",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+x ctrl+s",
+        "command": "workbench.action.files.save",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+x s",
+        "command": "workbench.action.files.saveAll",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+g g",
+        "command": "workbench.action.gotoLine"
+      },
+      {
+        "key": "ctrl+shift+i",
+        "command": "-workbench.action.chat.openagent",
+        "when": "config.chat.agent.enabled && !chatSetupDisabled && !chatSetupHidden"
+      },
+      {
+        "key": "ctrl+m",
+        "command": "type",
+        "args": {
+          "text": "\n"
+        },
+        "when": "editorTextFocus"
       }
     ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "lint": "eslint . --ext .ts,.tsx",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/node": "^16.11.7",
-    "@types/vscode": "^1.34.0",
-    "@typescript-eslint/eslint-plugin": "^5.30.6",
-    "@typescript-eslint/parser": "^5.30.6",
-    "eslint": "^8.19.0",
-    "typescript": "^4.7.2"
+    "@types/vscode": "^1.106.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.46.3",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
   }
 }
